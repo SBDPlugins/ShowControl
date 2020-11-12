@@ -5,3 +5,9 @@ api-version: 1.13
 authors: [SBDeveloper]
 description: Make perfect shows with this API!
 website: https://sbdplugins.nl
+commands:
+  mctpshow:
+    description: Het show command!
+permissions:
+  mctp.show:
+    description: De permissie voor /mctpshow

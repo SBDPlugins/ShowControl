@@ -7,7 +7,6 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
@@ -33,7 +32,7 @@ public class ShowAPI implements API, Listener {
     @Override
     public void init(Plugin plugin) {
         if (VersionUtil.getVersion() < 9 || VersionUtil.getVersion() > 16) {
-            logger.severe("This API only works from 1.9 to 1.16.1.");
+            logger.severe("Deze API werkt alleen tussen 1.9.x en 1.16.x.");
             disable(plugin);
             return;
         }
@@ -53,7 +52,7 @@ public class ShowAPI implements API, Listener {
         }
 
         public static class Firework {
-            private FireworkEffect.Builder effectBuilder;
+            private final FireworkEffect.Builder effectBuilder;
             private int power;
 
             public Firework() {
@@ -102,7 +101,17 @@ public class ShowAPI implements API, Listener {
 
     //SPOTS -> End Crystals
     public static class Spots {
-        private static Map<String, SpotRunnable> spots = new HashMap<>();
+        private static final Map<String, SpotRunnable> spots = new HashMap<>();
+
+        /**
+         * Check if a spot exists
+         *
+         * @param name The name of the spot
+         * @return true if it exists, false if not
+         */
+        public static boolean exists(String name) {
+            return spots.containsKey(name);
+        }
 
         /**
          * Spawn a new spot, and start it
@@ -165,7 +174,17 @@ public class ShowAPI implements API, Listener {
 
     //LASERS -> Guardian beams
     public static class Lasers {
-        private static Map<String, LaserRunnable> lasers = new HashMap<>();
+        private static final Map<String, LaserRunnable> lasers = new HashMap<>();
+
+        /**
+         * Check if a laser exists
+         *
+         * @param name The name of the laser
+         * @return true if it exists, false if not
+         */
+        public static boolean exists(String name) {
+            return lasers.containsKey(name);
+        }
 
         /**
          * Spawn a new laser, and start it
