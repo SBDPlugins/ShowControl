@@ -10,19 +10,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.util.List;
-
 public class ShowCueGUI {
     public static void openGUI(String name, Player p) {
-        List<ShowCue> points = Shows.getPoints(name);
-
-        SGMenu menu = ShowAPIPlugin.getSpiGUI().create(ChatColor.DARK_AQUA + "Show Cue Manager:", MainUtil.pointsToRow(points.size()));
+        SGMenu menu = ShowAPIPlugin.getSpiGUI().create(ChatColor.DARK_AQUA + "Show Cue Manager:", MainUtil.pointsToRow(Shows.getPoints(name).size()));
         menu.setAutomaticPaginationEnabled(true);
 
-        for (ShowCue cue : points) {
+        for (ShowCue cue : Shows.getPoints(name)) {
             SGButton button = new SGButton(MainUtil.pointToItem(cue))
                     .withListener((InventoryClickEvent e) -> {
-                 points.remove(cue);
+                 Shows.removePoint(name, cue);
 
                  openGUI(name, p); //Refresh
             });

@@ -2,6 +2,8 @@ package nl.sbdeveloper.showapi;
 
 import com.samjakob.spigui.SpiGUI;
 import nl.sbdeveloper.showapi.commands.ShowCMD;
+import nl.sbdeveloper.showapi.data.DataSaving;
+import nl.sbdeveloper.showapi.utils.YamlFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
 
@@ -10,6 +12,7 @@ public final class ShowAPIPlugin extends JavaPlugin {
     private static ShowAPIPlugin instance;
     private final ShowAPI showAPI = new ShowAPI();
     private static SpiGUI spiGUI;
+    private static YamlFile data;
 
     @Override
     public void onLoad() {
@@ -19,6 +22,10 @@ public final class ShowAPIPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        data = new YamlFile("data");
+        data.loadDefaults();
+        DataSaving.load();
 
         APIManager.initAPI(ShowAPI.class);
 
@@ -30,6 +37,9 @@ public final class ShowAPIPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         instance = null;
+
+        DataSaving.save();
+
         APIManager.disableAPI(ShowAPI.class);
     }
 
@@ -39,5 +49,9 @@ public final class ShowAPIPlugin extends JavaPlugin {
 
     public static SpiGUI getSpiGUI() {
         return spiGUI;
+    }
+
+    public static YamlFile getData() {
+        return data;
     }
 }
