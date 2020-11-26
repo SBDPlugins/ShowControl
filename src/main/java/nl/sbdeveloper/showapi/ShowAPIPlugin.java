@@ -4,6 +4,7 @@ import com.samjakob.spigui.SpiGUI;
 import nl.sbdeveloper.showapi.commands.ShowCMD;
 import nl.sbdeveloper.showapi.data.DataSaving;
 import nl.sbdeveloper.showapi.utils.YamlFile;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
 
@@ -25,7 +26,6 @@ public final class ShowAPIPlugin extends JavaPlugin {
 
         data = new YamlFile("data");
         data.loadDefaults();
-        DataSaving.load();
 
         APIManager.initAPI(ShowAPI.class);
 
@@ -33,6 +33,8 @@ public final class ShowAPIPlugin extends JavaPlugin {
         spiGUI.setEnableAutomaticPagination(true);
 
         getCommand("mctpshow").setExecutor(new ShowCMD());
+
+        Bukkit.getScheduler().runTaskLater(this, DataSaving::load, 1L); //Load 1 tick later, because of multi world
     }
 
     @Override
