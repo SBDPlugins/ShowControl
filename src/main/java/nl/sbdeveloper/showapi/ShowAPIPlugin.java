@@ -30,6 +30,7 @@ public final class ShowAPIPlugin extends JavaPlugin {
         APIManager.initAPI(ShowAPI.class);
 
         spiGUI = new SpiGUI(this);
+        spiGUI.setEnableAutomaticPagination(true);
 
         getCommand("mctpshow").setExecutor(new ShowCMD());
     }

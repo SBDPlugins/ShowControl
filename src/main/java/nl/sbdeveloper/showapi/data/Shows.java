@@ -33,19 +33,20 @@ public class Shows {
         return showsMap.get(name);
     }
 
-    public static void removePoint(String name, ShowCue point) {
-        if (!exists(name)) return;
-
-        showsMap.get(name).remove(point);
-
-        ShowAPIPlugin.getData().getFile().set("Shows." + name + "." + point.getCueID(), null);
-        ShowAPIPlugin.getData().saveFile();
-    }
-
     public static void addPoint(String name, int sec, TriggerData data) {
         if (!exists(name)) return;
         getPoints(name).add(new ShowCue(sec, data));
         Bukkit.getScheduler().runTaskAsynchronously(ShowAPIPlugin.getInstance(), DataSaving::save);
+    }
+
+    public static void removePoint(String name, ShowCue point) {
+        if (!exists(name)) return;
+
+        point.getData().remove();
+        showsMap.get(name).remove(point);
+
+        ShowAPIPlugin.getData().getFile().set("Shows." + name + "." + point.getCueID(), null);
+        ShowAPIPlugin.getData().saveFile();
     }
 
     public static void startShow(String name) {

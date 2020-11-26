@@ -18,6 +18,11 @@ public abstract class TriggerData {
     public void trigger() {}
 
     /**
+     * This method gets fired when the cue gets removed
+     */
+    public void remove() {}
+
+    /**
      * Get the trigger type
      *
      * @return The trigger type
@@ -26,6 +31,11 @@ public abstract class TriggerData {
         return type;
     }
 
+    /**
+     * Get the datastring from this cue
+     *
+     * @return The datastring
+     */
     public String getDataString() {
         StringBuilder builder = new StringBuilder();
         for (String s : dataString) {

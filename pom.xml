@@ -6,7 +6,7 @@
 
     <groupId>nl.SBDeveloper</groupId>
     <artifactId>ShowAPI</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
     <name>ShowAPI</name>
     <url>https://sbdplugins.nl</url>

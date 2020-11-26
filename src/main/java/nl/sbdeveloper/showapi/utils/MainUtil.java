@@ -1,27 +1,22 @@
 package nl.sbdeveloper.showapi.utils;
 
 import com.samjakob.spigui.item.ItemBuilder;
-import nl.sbdeveloper.showapi.ShowAPI;
 import nl.sbdeveloper.showapi.api.ShowCue;
 import nl.sbdeveloper.showapi.api.TriggerData;
 import nl.sbdeveloper.showapi.api.TriggerType;
-import nl.sbdeveloper.showapi.api.triggers.*;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.*;
-import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.ArrayUtils;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.ChatPaginator;
 
-import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainUtil {
-    public static int pointsToRow(int points) {
-       return (int) Math.ceil((double) points / 9);
-    }
-
     public static ItemStack pointToItem(ShowCue point) {
         ItemBuilder builder = new ItemBuilder(Material.NOTE_BLOCK);
         builder.name(ChatColor.ITALIC + "TimeCode: " + TimeUtil.showTime(point.getTimeSeconds()));
@@ -50,19 +45,12 @@ public class MainUtil {
             return null;
         }
 
-        if (type == TriggerType.COMMAND && dataSplitter.length >= 2) {
-            return new CommandTrigger(dataSplitterNew);
-        } else if (type == TriggerType.FIREWORK && dataSplitter.length >= 6) {
-            return new FireworkTrigger(dataSplitterNew);
-        } else if (type == TriggerType.LASER && dataSplitter.length == 6) {
-            return new LaserTrigger(dataSplitterNew);
-        } else if (type == TriggerType.SPOT && dataSplitter.length == 6) {
-            return new SpotTrigger(dataSplitterNew);
-        } else if (type == TriggerType.ANIMA && dataSplitter.length == 2) {
-            return new AnimaTrigger(dataSplitterNew);
+        try {
+            Constructor<? extends TriggerData> ctor = type.getTrigger().getConstructor(String[].class);
+            if (dataSplitter.length < type.getMinArgs()) return null;
+            return ctor.newInstance(new Object[] { dataSplitterNew });
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            return null;
         }
-
-        Bukkit.getLogger().info("Aan het einde. Incorrecte type of te weinig data!");
-        return null;
     }
 }

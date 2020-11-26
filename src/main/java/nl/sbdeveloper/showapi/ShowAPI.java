@@ -139,6 +139,12 @@ public class ShowAPI implements API, Listener {
             return true;
         }
 
+        public static void remove(String name) {
+            if (!spots.containsKey(name)) return;
+
+            spots.get(name).cancel();
+        }
+
         private static class SpotRunnable extends BukkitRunnable {
             private final EnderCrystal crystal;
             private final String name;
@@ -166,6 +172,7 @@ public class ShowAPI implements API, Listener {
             }
 
             public synchronized void cancel() throws IllegalStateException {
+                crystal.remove();
                 spots.remove(name);
                 super.cancel();
             }
@@ -217,6 +224,13 @@ public class ShowAPI implements API, Listener {
 
             lasers.get(name).changePositionLocation(posLoc);
             return true;
+        }
+
+        public static void remove(String name) {
+            if (!lasers.containsKey(name)) return;
+
+            lasers.get(name).cancel();
+            lasers.remove(name);
         }
 
         private static class LaserRunnable extends BukkitRunnable {

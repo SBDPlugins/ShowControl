@@ -158,6 +158,7 @@ public class Laser {
         static int generateEID() {
             return lastIssuedEID++;
         }
+        private static String nmsVersion = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
         private static int version = Integer.parseInt(Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3].substring(1).split("_")[1]);
         private static String npack = "net.minecraft.server." + Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + ".";
         private static String cpack = Bukkit.getServer().getClass().getPackage().getName() + ".";
@@ -205,8 +206,13 @@ public class Laser {
                     watcherName3 = "bA";
                     squidID = 74;
                     guardianID = 31;
-                }else if (version >= 16) {
-                    watcherName1 = "T";
+                }else if (version == 16) {
+                    if (nmsVersion.equals("v1_16_R3")) {
+                        watcherName1 = "S";
+                    } else {
+                        watcherName1 = "T";
+                    }
+
                     watcherName2 = "b";
                     watcherName3 = "d";
                     squidID = 74;
