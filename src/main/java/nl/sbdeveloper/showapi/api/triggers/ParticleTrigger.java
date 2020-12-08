@@ -53,4 +53,7 @@ public class ParticleTrigger extends TriggerData {
     public void trigger() {
         spawnLoc.getWorld().spawnParticle(type, spawnLoc, count);
     }
+
+    @Override
+    public void remove() {} //A particle is one time, ignore.
 }

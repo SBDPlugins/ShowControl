@@ -15,12 +15,12 @@ public abstract class TriggerData {
     /**
      * This method gets fired when the cue gets triggered
      */
-    public void trigger() {}
+    public abstract void trigger();
 
     /**
      * This method gets fired when the cue gets removed
      */
-    public void remove() {}
+    public abstract void remove();
 
     /**
      * Get the trigger type

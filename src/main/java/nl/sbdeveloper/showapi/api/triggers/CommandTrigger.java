@@ -17,4 +17,7 @@ public class CommandTrigger extends TriggerData {
     public void trigger() {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
     }
+
+    @Override
+    public void remove() {} //A command is one time, ignore.
 }
