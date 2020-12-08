@@ -25,43 +25,37 @@ public class ShowCMD implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (label.equalsIgnoreCase("mctpshow")) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(ChatColor.RED + "Je moet een speler zijn om dit te doen.");
-                return false;
-            }
-
-            Player p = (Player) sender;
-            if (!p.hasPermission("mctp.show")) {
-                p.sendMessage(ChatColor.RED + "Je hebt hier geen permissie voor.");
+            if (!sender.hasPermission("mctp.show")) {
+                sender.sendMessage(ChatColor.RED + "Je hebt hier geen permissie voor.");
                 return false;
             }
 
             if (args.length == 2 && args[0].equalsIgnoreCase("create")) {
                 String name = args[1];
                 if (Shows.exists(name)) {
-                    p.sendMessage(ChatColor.RED + "Die show bestaat al.");
+                    sender.sendMessage(ChatColor.RED + "Die show bestaat al.");
                     return false;
                 }
 
                 Shows.create(name);
 
-                p.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " is aangemaakt!");
+                sender.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " is aangemaakt!");
                 return true;
             } else if (args.length == 2 && args[0].equalsIgnoreCase("delete")) {
                 String name = args[1];
                 if (!Shows.exists(name)) {
-                    p.sendMessage(ChatColor.RED + "Die show bestaat niet.");
+                    sender.sendMessage(ChatColor.RED + "Die show bestaat niet.");
                     return false;
                 }
 
                 Shows.delete(name);
 
-                p.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " is verwijderd!");
+                sender.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " is verwijderd!");
                 return true;
             } else if (args.length >= 5 && args[0].equalsIgnoreCase("add")) {
                 String name = args[1];
                 if (!Shows.exists(name)) {
-                    p.sendMessage(ChatColor.RED + "Die show bestaat niet.");
+                    sender.sendMessage(ChatColor.RED + "Die show bestaat niet.");
                     return false;
                 }
 
@@ -74,37 +68,44 @@ public class ShowCMD implements CommandExecutor {
                 TriggerData data = MainUtil.parseData(builder.toString().trim());
 
                 if (data == null) {
-                    p.sendMessage(ChatColor.RED + "Je hebt niet genoeg informatie meegeven voor de trigger.");
+                    sender.sendMessage(ChatColor.RED + "Je hebt niet genoeg informatie meegeven voor de trigger.");
                     return false;
                 }
 
                 Shows.addPoint(name, seconds, data);
 
-                p.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " bevat nu een extra punt!");
+                sender.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " bevat nu een extra punt!");
                 return true;
             } else if (args.length == 2 && args[0].equalsIgnoreCase("start")) {
                 String name = args[1];
                 if (!Shows.exists(name)) {
-                    p.sendMessage(ChatColor.RED + "Die show bestaat niet.");
+                    sender.sendMessage(ChatColor.RED + "Die show bestaat niet.");
                     return false;
                 }
 
                 Shows.startShow(name);
 
-                p.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " is gestart!");
+                sender.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " is gestart!");
                 return true;
             } else if (args.length == 2 && args[0].equalsIgnoreCase("cancel")) {
                 String name = args[1];
                 if (!Shows.exists(name)) {
-                    p.sendMessage(ChatColor.RED + "Die show bestaat niet.");
+                    sender.sendMessage(ChatColor.RED + "Die show bestaat niet.");
                     return false;
                 }
 
                 Shows.cancelShow(name);
 
-                p.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " is gestopt!");
+                sender.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " is gestopt!");
                 return true;
             } else if (args.length == 2 && args[0].equalsIgnoreCase("gui")) {
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(ChatColor.RED + "Je moet een speler zijn om dit te doen.");
+                    return false;
+                }
+
+                Player p = (Player) sender;
+
                 String name = args[1];
                 if (!Shows.exists(name)) {
                     p.sendMessage(ChatColor.RED + "Die show bestaat niet.");
