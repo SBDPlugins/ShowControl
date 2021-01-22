@@ -134,8 +134,34 @@ public class ShowAPI implements API, Listener {
          */
         public static boolean move(String name, Location posLoc) {
             if (!spots.containsKey(name)) return false;
+            SpotRunnable spot = spots.get(name);
 
-            spots.get(name).changePositionLocation(posLoc);
+            new BukkitRunnable() {
+                Location oldLoc = spot.posLoc;
+
+                @Override
+                public void run() {
+                    if (oldLoc.getX() > posLoc.getX()) { //De x gaat omhoog
+                        oldLoc = oldLoc.add(0.01, 0, 0);
+                    } else {
+                        oldLoc = oldLoc.add(-0.01, 0, 0);
+                    }
+
+                    if (oldLoc.getY() > posLoc.getY()) { //De y gaat omhoog
+                        oldLoc = oldLoc.add(0, 0.01, 0);
+                    } else {
+                        oldLoc = oldLoc.add(0, -0.01, 0);
+                    }
+
+                    if (oldLoc.getZ() > posLoc.getZ()) { //De z gaat omhoog
+                        oldLoc = oldLoc.add(0, 0, 0.01);
+                    } else {
+                        oldLoc = oldLoc.add(0, 0, -0.01);
+                    }
+
+                    spot.changePositionLocation(oldLoc);
+                }
+            }.runTaskTimer(ShowAPIPlugin.getInstance(), 0L, 1L);
             return true;
         }
 
@@ -221,8 +247,34 @@ public class ShowAPI implements API, Listener {
          */
         public static boolean move(String name, Location posLoc) {
             if (!lasers.containsKey(name)) return false;
+            LaserRunnable laser = lasers.get(name);
 
-            lasers.get(name).changePositionLocation(posLoc);
+            new BukkitRunnable() {
+                Location oldLoc = laser.posLoc;
+
+                @Override
+                public void run() {
+                    if (oldLoc.getX() > posLoc.getX()) { //De x gaat omhoog
+                        oldLoc = oldLoc.add(0.01, 0, 0);
+                    } else {
+                        oldLoc = oldLoc.add(-0.01, 0, 0);
+                    }
+
+                    if (oldLoc.getY() > posLoc.getY()) { //De y gaat omhoog
+                        oldLoc = oldLoc.add(0, 0.01, 0);
+                    } else {
+                        oldLoc = oldLoc.add(0, -0.01, 0);
+                    }
+
+                    if (oldLoc.getZ() > posLoc.getZ()) { //De z gaat omhoog
+                        oldLoc = oldLoc.add(0, 0, 0.01);
+                    } else {
+                        oldLoc = oldLoc.add(0, 0, -0.01);
+                    }
+
+                    laser.changePositionLocation(oldLoc);
+                }
+            }.runTaskTimer(ShowAPIPlugin.getInstance(), 0L, 1L);
             return true;
         }
 
