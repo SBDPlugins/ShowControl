@@ -33,9 +33,9 @@ public class Shows {
         return showsMap.get(name);
     }
 
-    public static void addPoint(String name, int sec, TriggerData data) {
+    public static void addPoint(String name, int ticks, TriggerData data) {
         if (!exists(name)) return;
-        getPoints(name).add(new ShowCue(sec, data));
+        getPoints(name).add(new ShowCue(ticks, data));
         Bukkit.getScheduler().runTaskAsynchronously(ShowAPIPlugin.getInstance(), DataSaving::save);
     }
 

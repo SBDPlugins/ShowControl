@@ -19,7 +19,7 @@ import java.util.List;
 public class MainUtil {
     public static ItemStack pointToItem(ShowCue point) {
         ItemBuilder builder = new ItemBuilder(Material.NOTE_BLOCK);
-        builder.name(ChatColor.ITALIC + "TimeCode: " + TimeUtil.showTime(point.getTimeSeconds()));
+        builder.name(ChatColor.ITALIC + "TimeCode: " + TimeUtil.showTime(point.getTicks()));
 
         List<String> lores = new ArrayList<>();
         lores.add(ChatColor.GREEN + "Type: " + ChatColor.AQUA + StringUtils.capitalize(point.getData().getType().name()));

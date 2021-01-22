@@ -10,30 +10,30 @@ import java.util.UUID;
  */
 public class ShowCue {
     private final UUID cueID;
-    private final int timeSeconds;
+    private final int ticks;
     private final TriggerData data;
     private int taskID;
 
     /**
      * Create a new cue point
      *
-     * @param timeSeconds The starttime in seconds
+     * @param ticks The starttime in ticks
      * @param data The data
      */
-    public ShowCue(int timeSeconds, TriggerData data) {
-        this(UUID.randomUUID(), timeSeconds, data);
+    public ShowCue(int ticks, TriggerData data) {
+        this(UUID.randomUUID(), ticks, data);
     }
 
     /**
      * Load an exisiting cue point
      *
      * @param uuid The UUID
-     * @param timeSeconds The starttime in seconds
+     * @param ticks The starttime in ticks
      * @param data The data
      */
-    public ShowCue(UUID uuid, int timeSeconds, TriggerData data) {
+    public ShowCue(UUID uuid, int ticks, TriggerData data) {
         this.cueID = uuid;
-        this.timeSeconds = timeSeconds;
+        this.ticks = ticks;
         this.data = data;
     }
 
@@ -51,8 +51,8 @@ public class ShowCue {
      *
      * @return The time in seconds
      */
-    public int getTimeSeconds() {
-        return timeSeconds;
+    public int getTicks() {
+        return ticks;
     }
 
     /**
@@ -68,7 +68,7 @@ public class ShowCue {
      * Start this cue point
      */
     public void runAtTime() {
-        this.taskID = Bukkit.getScheduler().runTaskLater(ShowAPIPlugin.getInstance(), data::trigger, 20 * timeSeconds).getTaskId();
+        this.taskID = Bukkit.getScheduler().runTaskLater(ShowAPIPlugin.getInstance(), data::trigger, ticks).getTaskId();
     }
 
     /**

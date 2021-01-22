@@ -59,7 +59,7 @@ public class ShowCMD implements CommandExecutor {
                     return false;
                 }
 
-                int seconds = TimeUtil.parseSeconds(args[2]);
+                int ticks = TimeUtil.parseTicks(args[2]);
 
                 StringBuilder builder = new StringBuilder();
                 for (int i = 3; i < args.length; i++) {
@@ -72,7 +72,7 @@ public class ShowCMD implements CommandExecutor {
                     return false;
                 }
 
-                Shows.addPoint(name, seconds, data);
+                Shows.addPoint(name, ticks, data);
 
                 sender.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " bevat nu een extra punt!");
                 return true;

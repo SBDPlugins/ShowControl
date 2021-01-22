@@ -14,16 +14,16 @@ public class TimeUtil {
     private static final int y = (int)(d * 365.25);
 
     public static String showTime(int seconds) {
-        LocalTime timeOfDay = LocalTime.ofSecondOfDay(seconds);
+        LocalTime timeOfDay = LocalTime.ofSecondOfDay(seconds / 20);
         return timeOfDay.toString();
     }
 
-    public static int parseSeconds(String str) {
+    public static int parseTicks(String str) {
         try {
             LocalTime localTime = LocalTime.parse(str);
             return localTime.toSecondOfDay();
         } catch (DateTimeParseException ex) {
-            Pattern pattern = Pattern.compile("^(-?(?:\\d+)?\\.?\\d+) *(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$");
+            Pattern pattern = Pattern.compile("^(-?(?:\\d+)?\\.?\\d+) *(ticks?|tick?|t|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$");
             Matcher matcher = pattern.matcher(str);
 
             if (!matcher.find()) return 0;
@@ -35,33 +35,38 @@ public class TimeUtil {
                 case "yrs":
                 case "yr":
                 case "y":
-                    return (int)(n * y) / 1000;
+                    return (int)(n * y) / 20000;
                 case "weeks":
                 case "week":
                 case "w":
-                    return (int)(n * w) / 1000;
+                    return (int)(n * w) / 20000;
                 case "days":
                 case "day":
                 case "d":
-                    return (int)(n * d) / 1000;
+                    return (int)(n * d) / 20000;
                 case "hours":
                 case "hour":
                 case "hrs":
                 case "hr":
                 case "h":
-                    return (int)(n * h) / 1000;
+                    return (int)(n * h) / 20000;
                 case "minutes":
                 case "minute":
                 case "mins":
                 case "min":
                 case "m":
-                    return (int)(n * m) / 1000;
+                    return (int)(n * m) / 20000;
                 case "seconds":
                 case "second":
                 case "secs":
                 case "sec":
                 case "s":
-                    return (int)(n * s) / 1000;
+                    return (int)(n * s) / 20000;
+                case "ticks":
+                case "tick":
+                case "ts":
+                case "t":
+                    return (int) n / 20000;
                 default:
                     return 0;
             }
