@@ -2,15 +2,19 @@ package nl.sbdeveloper.showapi.data;
 
 import nl.sbdeveloper.showapi.ShowAPIPlugin;
 import nl.sbdeveloper.showapi.api.ShowCue;
-import nl.sbdeveloper.showapi.api.TriggerData;
+import nl.sbdeveloper.showapi.api.TriggerTask;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Shows {
     private static final HashMap<String, List<ShowCue>> showsMap = new HashMap<>();
+    private static final HashMap<String, ScheduledExecutorService> showTimers = new HashMap<>();
 
     public static void create(String name) {
         showsMap.put(name, new ArrayList<>());
@@ -33,16 +37,16 @@ public class Shows {
         return showsMap.get(name);
     }
 
-    public static void addPoint(String name, int ticks, TriggerData data) {
+    public static void addPoint(String name, Long time, TriggerTask data) {
         if (!exists(name)) return;
-        getPoints(name).add(new ShowCue(ticks, data));
+        getPoints(name).add(new ShowCue(time, data));
         Bukkit.getScheduler().runTaskAsynchronously(ShowAPIPlugin.getInstance(), DataSaving::save);
     }
 
     public static void removePoint(String name, ShowCue point) {
         if (!exists(name)) return;
 
-        point.getData().remove();
+        point.getTask().remove();
         showsMap.get(name).remove(point);
 
         ShowAPIPlugin.getData().getFile().set("Shows." + name + "." + point.getCueID(), null);
@@ -51,12 +55,20 @@ public class Shows {
 
     public static void startShow(String name) {
         if (!exists(name)) return;
-        getPoints(name).forEach(ShowCue::runAtTime);
+        ScheduledExecutorService showTimer = Executors.newSingleThreadScheduledExecutor();
+        Bukkit.getLogger().info("Scheduled show " + name);
+        for (ShowCue point : getPoints(name)) {
+            Bukkit.getLogger().info("Point " + point.getTask().getDataString() + " on " + point.getTime());
+            showTimer.schedule(() -> Bukkit.getScheduler().runTask(ShowAPIPlugin.getInstance(), () -> point.getTask().trigger()), point.getTime(), TimeUnit.MILLISECONDS);
+        }
+        showTimers.put(name, showTimer);
     }
 
     public static void cancelShow(String name) {
         if (!exists(name)) return;
-        getPoints(name).forEach(ShowCue::cancel);
+        if (!showTimers.containsKey(name)) return;
+        ScheduledExecutorService showTimer = showTimers.get(name);
+        showTimer.shutdownNow();
     }
 
     public static HashMap<String, List<ShowCue>> getShowsMap() {

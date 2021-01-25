@@ -1,6 +1,6 @@
 package nl.sbdeveloper.showapi.commands;
 
-import nl.sbdeveloper.showapi.api.TriggerData;
+import nl.sbdeveloper.showapi.api.TriggerTask;
 import nl.sbdeveloper.showapi.data.Shows;
 import nl.sbdeveloper.showapi.gui.ShowCueGUI;
 import nl.sbdeveloper.showapi.utils.MainUtil;
@@ -59,20 +59,26 @@ public class ShowCMD implements CommandExecutor {
                     return false;
                 }
 
-                int ticks = TimeUtil.parseTicks(args[2]);
+                Long time;
+                try {
+                    time = TimeUtil.toMilis(args[2]);
+                } catch (Exception e) {
+                    sender.sendMessage(ChatColor.RED + "Heeft een correcte tijd mee.");
+                    return false;
+                }
 
                 StringBuilder builder = new StringBuilder();
                 for (int i = 3; i < args.length; i++) {
                     builder.append(args[i]).append(" ");
                 }
-                TriggerData data = MainUtil.parseData(builder.toString().trim());
+                TriggerTask data = MainUtil.parseData(builder.toString().trim());
 
                 if (data == null) {
                     sender.sendMessage(ChatColor.RED + "Je hebt niet genoeg informatie meegeven voor de trigger.");
                     return false;
                 }
 
-                Shows.addPoint(name, ticks, data);
+                Shows.addPoint(name, time, data);
 
                 sender.sendMessage(ChatColor.GREEN + "De show " + ChatColor.WHITE + name + ChatColor.GREEN + " bevat nu een extra punt!");
                 return true;
@@ -112,7 +118,7 @@ public class ShowCMD implements CommandExecutor {
                     return false;
                 }
 
-                ShowCueGUI.openGUI(name, p);
+                new ShowCueGUI(p, name);
                 return true;
             }
         }

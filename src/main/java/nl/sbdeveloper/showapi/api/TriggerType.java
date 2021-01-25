@@ -10,15 +10,15 @@ public enum TriggerType {
     ANIMA(AnimaTrigger.class, 2),
     PARTICLE(ParticleTrigger.class, 7);
 
-    private final Class<? extends TriggerData> trigger;
+    private final Class<? extends TriggerTask> trigger;
     private final int minArgs;
 
-    TriggerType(Class<? extends TriggerData> trigger, int minArgs) {
+    TriggerType(Class<? extends TriggerTask> trigger, int minArgs) {
         this.trigger = trigger;
         this.minArgs = minArgs;
     }
 
-    public Class<? extends TriggerData> getTrigger() {
+    public Class<? extends TriggerTask> getTrigger() {
         return trigger;
     }
 

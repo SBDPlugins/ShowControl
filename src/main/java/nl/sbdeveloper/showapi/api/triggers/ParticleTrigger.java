@@ -1,13 +1,13 @@
 package nl.sbdeveloper.showapi.api.triggers;
 
-import nl.sbdeveloper.showapi.api.TriggerData;
+import nl.sbdeveloper.showapi.api.TriggerTask;
 import nl.sbdeveloper.showapi.api.TriggerType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 
-public class ParticleTrigger extends TriggerData {
+public class ParticleTrigger extends TriggerTask {
     private Particle type;
     private Location spawnLoc;
     private int count;

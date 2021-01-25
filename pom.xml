@@ -54,10 +54,6 @@
                                     <pattern>org.inventivetalent.apihelper</pattern>
                                     <shadedPattern>nl.sbdeveloper.showapi.helpers.apihelper</shadedPattern>
                                 </relocation>
-                                <relocation>
-                                    <pattern>com.samjakob.spigui</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showapi.helpers.guihelper</shadedPattern>
-                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
@@ -144,10 +140,15 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.samjakob</groupId>
-            <artifactId>SpiGUI</artifactId>
-            <version>v1.1</version>
+            <groupId>fr.minuskube.inv</groupId>
+            <artifactId>smart-invs</artifactId>
+            <version>1.2.7</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>7.8.0</version>
         </dependency>
     </dependencies>
 </project>

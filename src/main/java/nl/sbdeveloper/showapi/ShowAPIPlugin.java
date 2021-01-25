@@ -1,8 +1,9 @@
 package nl.sbdeveloper.showapi;
 
-import com.samjakob.spigui.SpiGUI;
 import nl.sbdeveloper.showapi.commands.ShowCMD;
 import nl.sbdeveloper.showapi.data.DataSaving;
+import nl.sbdeveloper.showapi.data.Shows;
+import nl.sbdeveloper.showapi.utils.Inventory;
 import nl.sbdeveloper.showapi.utils.YamlFile;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,7 +13,6 @@ public final class ShowAPIPlugin extends JavaPlugin {
 
     private static ShowAPIPlugin instance;
     private final ShowAPI showAPI = new ShowAPI();
-    private static SpiGUI spiGUI;
     private static YamlFile data;
 
     @Override
@@ -29,8 +29,7 @@ public final class ShowAPIPlugin extends JavaPlugin {
 
         APIManager.initAPI(ShowAPI.class);
 
-        spiGUI = new SpiGUI(this);
-        spiGUI.setEnableAutomaticPagination(true);
+        Inventory.init();
 
         getCommand("mctpshow").setExecutor(new ShowCMD());
 
@@ -43,15 +42,13 @@ public final class ShowAPIPlugin extends JavaPlugin {
 
         DataSaving.save();
 
+        Shows.getShowsMap().values().forEach(show -> show.forEach(showCue -> showCue.getTask().remove()));
+
         APIManager.disableAPI(ShowAPI.class);
     }
 
     public static ShowAPIPlugin getInstance() {
         return instance;
-    }
-
-    public static SpiGUI getSpiGUI() {
-        return spiGUI;
     }
 
     public static YamlFile getData() {

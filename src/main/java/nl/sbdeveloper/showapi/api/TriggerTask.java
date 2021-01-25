@@ -1,13 +1,13 @@
 package nl.sbdeveloper.showapi.api;
 
-public abstract class TriggerData {
+public abstract class TriggerTask {
     private final TriggerType type;
     private final String[] dataString;
 
     /**
      * Create a new trigger
      */
-    public TriggerData(TriggerType type, String[] dataString) {
+    public TriggerTask(TriggerType type, String[] dataString) {
         this.type = type;
         this.dataString = dataString;
     }

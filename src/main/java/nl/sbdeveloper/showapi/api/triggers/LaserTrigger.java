@@ -1,13 +1,13 @@
 package nl.sbdeveloper.showapi.api.triggers;
 
 import nl.sbdeveloper.showapi.ShowAPI;
-import nl.sbdeveloper.showapi.api.TriggerData;
+import nl.sbdeveloper.showapi.api.TriggerTask;
 import nl.sbdeveloper.showapi.api.TriggerType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-public class LaserTrigger extends TriggerData {
+public class LaserTrigger extends TriggerTask {
     private final String name;
     private Location newLocation;
 

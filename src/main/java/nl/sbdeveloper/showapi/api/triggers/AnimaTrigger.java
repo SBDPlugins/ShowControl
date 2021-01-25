@@ -1,10 +1,10 @@
 package nl.sbdeveloper.showapi.api.triggers;
 
-import nl.sbdeveloper.showapi.api.TriggerData;
+import nl.sbdeveloper.showapi.api.TriggerTask;
 import nl.sbdeveloper.showapi.api.TriggerType;
 import org.bukkit.Bukkit;
 
-public class AnimaTrigger extends TriggerData {
+public class AnimaTrigger extends TriggerTask {
     private final String name;
 
     public AnimaTrigger(String[] data) {

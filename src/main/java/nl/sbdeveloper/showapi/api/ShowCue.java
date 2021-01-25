@@ -1,8 +1,5 @@
 package nl.sbdeveloper.showapi.api;
 
-import nl.sbdeveloper.showapi.ShowAPIPlugin;
-import org.bukkit.Bukkit;
-
 import java.util.UUID;
 
 /**
@@ -10,30 +7,29 @@ import java.util.UUID;
  */
 public class ShowCue {
     private final UUID cueID;
-    private final int ticks;
-    private final TriggerData data;
-    private int taskID;
+    private final Long time;
+    private final TriggerTask data;
 
     /**
      * Create a new cue point
      *
-     * @param ticks The starttime in ticks
+     * @param time The starttime (milli)
      * @param data The data
      */
-    public ShowCue(int ticks, TriggerData data) {
-        this(UUID.randomUUID(), ticks, data);
+    public ShowCue(Long time, TriggerTask data) {
+        this(UUID.randomUUID(), time, data);
     }
 
     /**
      * Load an exisiting cue point
      *
      * @param uuid The UUID
-     * @param ticks The starttime in ticks
+     * @param time The starttime (milli)
      * @param data The data
      */
-    public ShowCue(UUID uuid, int ticks, TriggerData data) {
+    public ShowCue(UUID uuid, Long time, TriggerTask data) {
         this.cueID = uuid;
-        this.ticks = ticks;
+        this.time = time;
         this.data = data;
     }
 
@@ -47,12 +43,12 @@ public class ShowCue {
     }
 
     /**
-     * Get the time in seconds
+     * Get the time (milli)
      *
-     * @return The time in seconds
+     * @return The time (milli)
      */
-    public int getTicks() {
-        return ticks;
+    public Long getTime() {
+        return time;
     }
 
     /**
@@ -60,21 +56,7 @@ public class ShowCue {
      *
      * @return The data
      */
-    public TriggerData getData() {
+    public TriggerTask getTask() {
         return data;
-    }
-
-    /**
-     * Start this cue point
-     */
-    public void runAtTime() {
-        this.taskID = Bukkit.getScheduler().runTaskLater(ShowAPIPlugin.getInstance(), data::trigger, ticks).getTaskId();
-    }
-
-    /**
-     * Cancel this cue point
-     */
-    public void cancel() {
-        Bukkit.getScheduler().cancelTask(taskID);
     }
 }
