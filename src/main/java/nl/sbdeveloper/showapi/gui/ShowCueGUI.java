@@ -24,7 +24,7 @@ public class ShowCueGUI extends Inventory {
     private final String showName;
 
     public ShowCueGUI(Player p, String name) {
-        super(5, ChatColor.DARK_AQUA + "Show Cue Manager:");
+        super(6, ChatColor.DARK_AQUA + "Show Cue Manager:");
         this.showName = name;
         open(p);
     }

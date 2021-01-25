@@ -48,11 +48,16 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <minimizeJar>true</minimizeJar>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>
                                     <pattern>org.inventivetalent.apihelper</pattern>
                                     <shadedPattern>nl.sbdeveloper.showapi.helpers.apihelper</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>fr.minuskube.inv</pattern>
+                                    <shadedPattern>nl.sbdeveloper.showapi.helpers.inv</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
