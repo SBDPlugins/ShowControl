@@ -14,10 +14,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
 
 public final class ShowAPIPlugin extends JavaPlugin {
-
     private static ShowAPIPlugin instance;
-    private static PaperCommandManager commandManager;
     private final ShowAPI showAPI = new ShowAPI();
+    
+    private static PaperCommandManager commandManager;
+
     private static YamlFile data;
     private static ParticleNativeAPI particleAPI;
 
