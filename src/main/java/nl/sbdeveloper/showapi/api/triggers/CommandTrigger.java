@@ -17,7 +17,4 @@ public class CommandTrigger extends TriggerTask {
     public void trigger() {
         Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
     }
-
-    @Override
-    public void remove() {} //A command is one time, ignore.
 }

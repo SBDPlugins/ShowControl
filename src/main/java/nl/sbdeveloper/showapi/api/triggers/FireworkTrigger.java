@@ -73,7 +73,4 @@ public class FireworkTrigger extends TriggerTask {
     public void trigger() {
         ShowAPI.Fireworks.spawn(fw, spawnLoc);
     }
-
-    @Override
-    public void remove() {} //Firework is one-time, ignore.
 }

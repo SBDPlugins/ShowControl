@@ -1,19 +1,20 @@
 package nl.sbdeveloper.showapi.api.triggers;
 
+import nl.sbdeveloper.showapi.ShowAPIPlugin;
 import nl.sbdeveloper.showapi.api.TriggerTask;
 import nl.sbdeveloper.showapi.api.TriggerType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.World;
 
-public class ParticleTrigger extends TriggerTask {
-    private Particle type;
+public class FakeFireworkTrigger extends TriggerTask {
     private Location spawnLoc;
-    private int count;
+    private float xVelocity;
+    private float yVelocity;
+    private float zVelocity;
 
-    public ParticleTrigger(String[] data) {
-        super(TriggerType.PARTICLE, data);
+    public FakeFireworkTrigger(String[] data) {
+        super(TriggerType.FAKE_FIREWORK, data);
 
         World w = Bukkit.getWorld(data[0]);
         if (w == null) {
@@ -36,21 +37,17 @@ public class ParticleTrigger extends TriggerTask {
         this.spawnLoc = new Location(w, x, y, z);
 
         try {
-            this.type = Particle.valueOf(data[4]);
-        } catch (IllegalArgumentException ex) {
-            Bukkit.getLogger().info("De particle " + data[4] + " bestaat niet!");
-            return;
-        }
-
-        try {
-            this.count = Integer.parseInt(data[5]);
+            this.xVelocity = Float.parseFloat(data[4]);
+            this.yVelocity = Float.parseFloat(data[5]);
+            this.zVelocity = Float.parseFloat(data[6]);
         } catch (NumberFormatException ex) {
-            Bukkit.getLogger().info("Het aantal " + data[4] + " is incorrect!");
+            Bukkit.getLogger().info("De velocity is incorrect!");
         }
     }
 
     @Override
     public void trigger() {
-        spawnLoc.getWorld().spawnParticle(type, spawnLoc, count);
+        //TODO Fix this trigger
+        ShowAPIPlugin.getParticleAPI().getParticles_1_13().DUST().color(255, 0, 0, 5).packet(true, spawnLoc.getX(), spawnLoc.getY(), spawnLoc.getZ(), xVelocity, yVelocity, zVelocity, 0.01, 40);
     }
 }

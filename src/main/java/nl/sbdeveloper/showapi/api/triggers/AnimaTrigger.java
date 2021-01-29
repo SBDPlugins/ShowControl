@@ -17,9 +17,4 @@ public class AnimaTrigger extends TriggerTask {
     public void trigger() {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "anima play " + name);
     }
-
-    @Override
-    public void remove() {
-        //TODO Remove the anima?
-    }
 }

@@ -19,8 +19,9 @@ public abstract class TriggerTask {
 
     /**
      * This method gets fired when the cue gets removed
+     * It's not required, and does nothing if it's not needed.
      */
-    public abstract void remove();
+    public void remove() {}
 
     /**
      * Get the trigger type

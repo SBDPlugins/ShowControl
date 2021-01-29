@@ -1,5 +1,9 @@
 package nl.sbdeveloper.showapi;
 
+import co.aikar.commands.PaperCommandManager;
+import com.github.fierioziy.particlenativeapi.api.ParticleNativeAPI;
+import com.github.fierioziy.particlenativeapi.api.utils.ParticleException;
+import com.github.fierioziy.particlenativeapi.core.ParticleNativeCore;
 import nl.sbdeveloper.showapi.commands.ShowCMD;
 import nl.sbdeveloper.showapi.data.DataSaving;
 import nl.sbdeveloper.showapi.data.Shows;
@@ -12,8 +16,10 @@ import org.inventivetalent.apihelper.APIManager;
 public final class ShowAPIPlugin extends JavaPlugin {
 
     private static ShowAPIPlugin instance;
+    private static PaperCommandManager commandManager;
     private final ShowAPI showAPI = new ShowAPI();
     private static YamlFile data;
+    private static ParticleNativeAPI particleAPI;
 
     @Override
     public void onLoad() {
@@ -29,9 +35,20 @@ public final class ShowAPIPlugin extends JavaPlugin {
 
         APIManager.initAPI(ShowAPI.class);
 
-        Inventory.init();
+        commandManager = new PaperCommandManager(this);
+        commandManager.enableUnstableAPI("help");
 
-        getCommand("mctpshow").setExecutor(new ShowCMD());
+        commandManager.registerCommand(new ShowCMD());
+
+        try {
+            particleAPI = ParticleNativeCore.loadAPI(this);
+        } catch (ParticleException ex) {
+            ex.printStackTrace();
+            getPluginLoader().disablePlugin(this);
+            return;
+        }
+
+        Inventory.init();
 
         Bukkit.getScheduler().runTaskLater(this, DataSaving::load, 1L); //Load 1 tick later, because of multi world
     }
@@ -51,7 +68,15 @@ public final class ShowAPIPlugin extends JavaPlugin {
         return instance;
     }
 
+    public static PaperCommandManager getCommandManager() {
+        return commandManager;
+    }
+
     public static YamlFile getData() {
         return data;
+    }
+
+    public static ParticleNativeAPI getParticleAPI() {
+        return particleAPI;
     }
 }

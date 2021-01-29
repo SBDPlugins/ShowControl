@@ -5,6 +5,7 @@ import nl.sbdeveloper.showapi.api.triggers.*;
 public enum TriggerType {
     COMMAND(CommandTrigger.class, 2),
     FIREWORK(FireworkTrigger.class, 6),
+    FAKE_FIREWORK(FakeFireworkTrigger.class, 7),
     SPOT(SpotTrigger.class, 6),
     LASER(LaserTrigger.class, 6),
     ANIMA(AnimaTrigger.class, 2),
