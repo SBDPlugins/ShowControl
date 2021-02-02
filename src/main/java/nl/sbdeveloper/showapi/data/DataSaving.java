@@ -4,52 +4,47 @@ import nl.sbdeveloper.showapi.ShowAPIPlugin;
 import nl.sbdeveloper.showapi.api.ShowCue;
 import nl.sbdeveloper.showapi.api.TriggerTask;
 import nl.sbdeveloper.showapi.utils.MainUtil;
+import nl.sbdeveloper.showapi.utils.YamlFile;
+import org.bukkit.craftbukkit.libs.org.apache.commons.io.FilenameUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.File;
+import java.util.*;
 
 public class DataSaving {
+    private static final Map<String, YamlFile> files = new HashMap<>();
+
+    public static Map<String, YamlFile> getFiles() {
+        return files;
+    }
+
     public static void load() {
-        boolean newSystem = ShowAPIPlugin.getData().getFile().contains("NewestSystem");
+        File showsFolder = new File(ShowAPIPlugin.getInstance().getDataFolder(), "data");
+        for (File showFile : showsFolder.listFiles()) {
+            String showID = FilenameUtils.removeExtension(showFile.getName());
+            YamlFile showConfig = new YamlFile("data/" + showID);
+            files.put(showID, showConfig);
 
-        for (String name : ShowAPIPlugin.getData().getFile().getConfigurationSection("Shows").getKeys(false)) {
             List<ShowCue> cues = new ArrayList<>();
-
-            for (String id : ShowAPIPlugin.getData().getFile().getConfigurationSection("Shows." + name).getKeys(false)) {
+            for (String id : showConfig.getFile().getKeys(false)) {
                 UUID cueID = UUID.fromString(id);
+                TriggerTask data = MainUtil.parseData(showConfig.getFile().getString(id + ".Type") + " " + showConfig.getFile().getString(id + ".Data"));
+                long time = showConfig.getFile().getLong(id + ".Time");
 
-                TriggerTask data = MainUtil.parseData(ShowAPIPlugin.getData().getFile().getString("Shows." + name + "." + id + ".Type") + " " + ShowAPIPlugin.getData().getFile().getString("Shows." + name + "." + id + ".Data"));
-
-                long time;
-                if (!newSystem) time = Math.round(ShowAPIPlugin.getData().getFile().getInt("Shows." + name + "." + id + ".Time") * 50);
-                else time = ShowAPIPlugin.getData().getFile().getLong("Shows." + name + "." + id + ".Time");
-
-                if (!newSystem) {
-                    ShowAPIPlugin.getData().getFile().set("Shows." + name + "." + id + ".Time", time);
-                }
-
-                cues.add(new ShowCue(cueID, ShowAPIPlugin.getData().getFile().getLong("Shows." + name + "." + id + ".Time"), data));
+                cues.add(new ShowCue(cueID, time, data));
             }
-
-            Shows.getShowsMap().put(name, cues);
-        }
-
-        if (!newSystem) {
-            ShowAPIPlugin.getData().getFile().set("NewestSystem", true);
-            ShowAPIPlugin.getData().saveFile();
+            Shows.getShowsMap().put(showID, cues);
         }
     }
 
     public static void save() {
         for (Map.Entry<String, List<ShowCue>> entry : Shows.getShowsMap().entrySet()) {
+            YamlFile file = files.get(entry.getKey());
             for (ShowCue cue : entry.getValue()) {
-                ShowAPIPlugin.getData().getFile().set("Shows." + entry.getKey() + "." + cue.getCueID().toString() + ".Time", cue.getTime());
-                ShowAPIPlugin.getData().getFile().set("Shows." + entry.getKey() + "." + cue.getCueID().toString() + ".Type", cue.getTask().getType().name());
-                ShowAPIPlugin.getData().getFile().set("Shows." + entry.getKey() + "." + cue.getCueID().toString() + ".Data", cue.getTask().getDataString());
+                file.getFile().set(cue.getCueID().toString() + ".Time", cue.getTime());
+                file.getFile().set(cue.getCueID().toString() + ".Type", cue.getTask().getType().name());
+                file.getFile().set(cue.getCueID().toString() + ".Data", cue.getTask().getDataString());
             }
-            ShowAPIPlugin.getData().saveFile();
+            file.saveFile();
         }
     }
 }

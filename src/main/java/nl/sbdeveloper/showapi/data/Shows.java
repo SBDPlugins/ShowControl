@@ -3,8 +3,10 @@ package nl.sbdeveloper.showapi.data;
 import nl.sbdeveloper.showapi.ShowAPIPlugin;
 import nl.sbdeveloper.showapi.api.ShowCue;
 import nl.sbdeveloper.showapi.api.TriggerTask;
+import nl.sbdeveloper.showapi.utils.YamlFile;
 import org.bukkit.Bukkit;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +26,8 @@ public class Shows {
     public static void delete(String name) {
         showsMap.remove(name);
 
-        ShowAPIPlugin.getData().getFile().set("Shows." + name, null);
-        ShowAPIPlugin.getData().saveFile();
+        File data = new File(ShowAPIPlugin.getInstance().getDataFolder(), "data/" + name + ".yml");
+        data.delete();
     }
 
     public static boolean exists(String name) {
@@ -49,8 +51,10 @@ public class Shows {
         point.getTask().remove();
         showsMap.get(name).remove(point);
 
-        ShowAPIPlugin.getData().getFile().set("Shows." + name + "." + point.getCueID(), null);
-        ShowAPIPlugin.getData().saveFile();
+        YamlFile data = DataSaving.getFiles().get(name);
+
+        data.getFile().set(point.getCueID().toString(), null);
+        data.saveFile();
     }
 
     public static void startShow(String name) {
