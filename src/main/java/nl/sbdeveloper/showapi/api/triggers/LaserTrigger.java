@@ -11,8 +11,10 @@ public class LaserTrigger extends TriggerTask {
     private final String name;
     private Location newLocation;
 
+    //TODO Fix laser for 1.17
     public LaserTrigger(String[] data) {
-        super(TriggerType.LASER, data);
+        //super(TriggerType.LASER, data);
+        super(null, data);
 
         this.name = data[0];
 

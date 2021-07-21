@@ -1,7 +1,7 @@
 name: ShowAPI
 version: ${project.version}
 main: nl.sbdeveloper.showapi.ShowAPIPlugin
-api-version: 1.13
+api-version: 1.17
 authors: [SBDeveloper]
 description: Make perfect shows with this API!
 website: https://sbdplugins.nl
