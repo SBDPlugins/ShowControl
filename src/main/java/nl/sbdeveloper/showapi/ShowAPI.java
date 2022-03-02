@@ -31,8 +31,8 @@ public class ShowAPI implements API, Listener {
     //This gets called either by #initAPI above or #initAPI in one of the requiring plugins
     @Override
     public void init(Plugin plugin) {
-        if (VersionUtil.getVersion() < 9 || VersionUtil.getVersion() > 16) {
-            logger.severe("Deze API werkt alleen tussen 1.9.x en 1.16.x.");
+        if (VersionUtil.getVersion() < 9 || VersionUtil.getVersion() > 17) {
+            logger.severe("Deze API werkt alleen tussen 1.9.x en 1.17.x.");
             disable(plugin);
             return;
         }

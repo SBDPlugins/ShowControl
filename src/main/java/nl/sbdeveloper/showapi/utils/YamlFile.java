@@ -13,8 +13,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class YamlFile {
-    //SBYamlFile file = new SBYamlFile(this, "data");
-
     private FileConfiguration fileConfiguration;
     private File file;
     private final String name;

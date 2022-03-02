@@ -13,8 +13,7 @@ public class LaserTrigger extends TriggerTask {
 
     //TODO Fix laser for 1.17
     public LaserTrigger(String[] data) {
-        //super(TriggerType.LASER, data);
-        super(null, data);
+        super(TriggerType.LASER, data);
 
         this.name = data[0];
 
@@ -45,7 +44,8 @@ public class LaserTrigger extends TriggerTask {
 
     @Override
     public void trigger() {
-        ShowAPI.Lasers.move(name, newLocation);
+        Bukkit.broadcastMessage("[ShowAPI] De trigger " + name + " is genegeerd, omdat de LASER is disabled.");
+//        ShowAPI.Lasers.move(name, newLocation);
     }
 
     @Override

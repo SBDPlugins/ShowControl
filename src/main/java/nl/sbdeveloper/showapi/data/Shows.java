@@ -20,7 +20,8 @@ public class Shows {
 
     public static void create(String name) {
         showsMap.put(name, new ArrayList<>());
-        Bukkit.getScheduler().runTaskAsynchronously(ShowAPIPlugin.getInstance(), DataSaving::save);
+        DataSaving.save();
+//        Bukkit.getScheduler().runTaskAsynchronously(ShowAPIPlugin.getInstance(), DataSaving::save);
     }
 
     public static void delete(String name) {
@@ -42,7 +43,8 @@ public class Shows {
     public static void addPoint(String name, Long time, TriggerTask data) {
         if (!exists(name)) return;
         getPoints(name).add(new ShowCue(time, data));
-        Bukkit.getScheduler().runTaskAsynchronously(ShowAPIPlugin.getInstance(), DataSaving::save);
+        DataSaving.save();
+//        Bukkit.getScheduler().runTaskAsynchronously(ShowAPIPlugin.getInstance(), DataSaving::save);
     }
 
     public static void removePoint(String name, ShowCue point) {
