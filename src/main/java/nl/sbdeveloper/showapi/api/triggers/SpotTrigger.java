@@ -1,8 +1,8 @@
 package nl.sbdeveloper.showapi.api.triggers;
 
-import nl.sbdeveloper.showapi.ShowAPI;
 import nl.sbdeveloper.showapi.api.TriggerTask;
 import nl.sbdeveloper.showapi.api.TriggerType;
+import nl.sbdeveloper.showapi.elements.Spots;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -36,8 +36,8 @@ public class SpotTrigger extends TriggerTask {
 
         this.newLocation = new Location(w, x, y, z);
 
-        if (!ShowAPI.Spots.exists(name)) {
-            ShowAPI.Spots.start(name, newLocation);
+        if (!Spots.exists(name)) {
+            Spots.start(name, newLocation);
         }
     }
 
@@ -49,6 +49,6 @@ public class SpotTrigger extends TriggerTask {
 
     @Override
     public void remove() {
-        ShowAPI.Spots.remove(name);
+        Spots.remove(name);
     }
 }

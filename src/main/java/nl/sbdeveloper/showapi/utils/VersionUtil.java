@@ -1,16 +1,11 @@
 package nl.sbdeveloper.showapi.utils;
 
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
-import org.jetbrains.annotations.NotNull;
 
 public class VersionUtil {
     private static final int VERSION = Integer.parseInt(getMajorVersion(Bukkit.getVersion()).substring(2));
 
-    @NotNull
     private static String getMajorVersion(String version) {
-        Validate.notEmpty(version, "Cannot get major Minecraft version from null or empty string");
-
         // getVersion()
         int index = version.lastIndexOf("MC:");
         if (index != -1) {

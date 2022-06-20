@@ -3,7 +3,6 @@ package nl.sbdeveloper.showapi.utils;
 import nl.sbdeveloper.showapi.api.ShowCue;
 import nl.sbdeveloper.showapi.api.TriggerTask;
 import nl.sbdeveloper.showapi.api.TriggerType;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -25,7 +24,7 @@ public class MainUtil {
         builder.setName(ChatColor.ITALIC + "TimeCode: " + TimeUtil.makeReadable(point.getTime()));
 
         List<String> lores = new ArrayList<>();
-        lores.add(ChatColor.GREEN + "Type: " + ChatColor.AQUA + StringUtils.capitalize(point.getTask().getType().name()));
+        lores.add(ChatColor.GREEN + "Type: " + ChatColor.AQUA + capitalize(point.getTask().getType().name()));
         lores.add(ChatColor.GREEN + "Data:");
         for (String str : ChatPaginator.paginate(point.getTask().getDataString(), 20).getLines()) {
             lores.add(ChatColor.AQUA + ChatColor.stripColor(str));
@@ -55,5 +54,9 @@ public class MainUtil {
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             return null;
         }
+    }
+
+    public static String capitalize(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 }

@@ -1,8 +1,8 @@
 package nl.sbdeveloper.showapi.api.triggers;
 
-import nl.sbdeveloper.showapi.ShowAPI;
 import nl.sbdeveloper.showapi.api.TriggerTask;
 import nl.sbdeveloper.showapi.api.TriggerType;
+import nl.sbdeveloper.showapi.elements.Fireworks;
 import nl.sbdeveloper.showapi.utils.Color;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
@@ -10,7 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 public class FireworkTrigger extends TriggerTask {
-    private ShowAPI.Fireworks.Firework fw;
+    private Fireworks.Firework fw;
     private Location spawnLoc;
 
     public FireworkTrigger(String[] data) {
@@ -36,7 +36,7 @@ public class FireworkTrigger extends TriggerTask {
 
         this.spawnLoc = new Location(w, x, y, z);
 
-        ShowAPI.Fireworks.Firework firework = new ShowAPI.Fireworks.Firework();
+        Fireworks.Firework firework = new Fireworks.Firework();
         for (int i = 4; i < data.length; i++) {
             if (data[i].split(":").length != 2) continue;
 
@@ -71,6 +71,6 @@ public class FireworkTrigger extends TriggerTask {
 
     @Override
     public void trigger() {
-        ShowAPI.Fireworks.spawn(fw, spawnLoc);
+        Fireworks.spawn(fw, spawnLoc);
     }
 }
