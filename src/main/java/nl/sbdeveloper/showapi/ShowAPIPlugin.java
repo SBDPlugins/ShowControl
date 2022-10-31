@@ -12,31 +12,22 @@ import nl.sbdeveloper.showapi.data.Shows;
 import nl.sbdeveloper.showapi.utils.Inventory;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.inventivetalent.apihelper.APIManager;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public final class ShowAPIPlugin extends JavaPlugin {
     private static ShowAPIPlugin instance;
-    private final ShowAPI showAPI = new ShowAPI();
 
     private static PaperCommandManager commandManager;
 
     private static ParticleNativeAPI particleAPI;
 
     @Override
-    public void onLoad() {
-        APIManager.registerAPI(showAPI, this);
-    }
-
-    @Override
     public void onEnable() {
         instance = this;
 
         DataConversion.handle();
-
-        APIManager.initAPI(ShowAPI.class);
 
         commandManager = new PaperCommandManager(this);
         commandManager.enableUnstableAPI("help");
@@ -66,8 +57,6 @@ public final class ShowAPIPlugin extends JavaPlugin {
         DataSaving.save();
 
         Shows.getShowsMap().values().forEach(show -> show.forEach(showCue -> showCue.getTask().remove()));
-
-        APIManager.disableAPI(ShowAPI.class);
     }
 
     public static ShowAPIPlugin getInstance() {
