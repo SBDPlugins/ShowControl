@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static nl.sbdeveloper.showapi.utils.MainUtil.__;
 
@@ -34,12 +33,11 @@ public class ShowCueGUI extends Inventory {
         Pagination pagination = contents.pagination();
 
         List<ClickableItem> items = new ArrayList<>();
-        for (ShowCue cue : Shows.getPoints(showName).stream().sorted(Comparator.comparing(ShowCue::getTime)).collect(Collectors.toList())) {
-            items.add(ClickableItem.of(MainUtil.pointToItem(cue), e -> {
-                Shows.removePoint(showName, cue);
-                open(player, pagination.getPage());
-            }));
-        }
+        Shows.getPoints(showName).stream().sorted(Comparator.comparing(ShowCue::getTime))
+                .forEach(cue -> items.add(ClickableItem.of(MainUtil.pointToItem(cue), e -> {
+                    Shows.removePoint(showName, cue);
+                    open(player, pagination.getPage());
+                })));
 
         ClickableItem[] itemsArray = new ClickableItem[items.size()];
         itemsArray = items.toArray(itemsArray);

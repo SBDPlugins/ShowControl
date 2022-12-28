@@ -50,7 +50,7 @@ public class MainUtil {
         try {
             Constructor<? extends TriggerTask> ctor = type.getTrigger().getConstructor(String[].class);
             if (dataSplitter.length < type.getMinArgs()) return null;
-            return ctor.newInstance(new Object[] { dataSplitterNew });
+            return ctor.newInstance(dataSplitterNew);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             return null;
         }
