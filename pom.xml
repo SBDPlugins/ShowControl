@@ -127,7 +127,7 @@
         <dependency>
             <groupId>com.github.fierioziy.particlenativeapi</groupId>
             <artifactId>ParticleNativeAPI-plugin</artifactId>
-            <version>3.2.1</version>
+            <version>3.3.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
