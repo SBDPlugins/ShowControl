@@ -5,16 +5,16 @@ import nl.sbdeveloper.showcontrol.api.triggers.Trigger;
 import nl.sbdeveloper.showcontrol.api.triggers.TriggerIdentifier;
 import org.bukkit.Bukkit;
 import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.Scanners;
-import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class ShowAPI {
     @Getter

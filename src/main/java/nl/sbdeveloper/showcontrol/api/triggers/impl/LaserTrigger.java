@@ -1,5 +1,6 @@
 package nl.sbdeveloper.showcontrol.api.triggers.impl;
 
+import nl.sbdeveloper.showcontrol.api.InvalidArgumentException;
 import nl.sbdeveloper.showcontrol.api.triggers.Trigger;
 import nl.sbdeveloper.showcontrol.api.triggers.TriggerIdentifier;
 import nl.sbdeveloper.showcontrol.elements.Lasers;
@@ -10,17 +11,16 @@ import org.bukkit.World;
 @TriggerIdentifier(value = "laser", minArgs = 5, argDesc = "<name> <world> <x> <y> <z>")
 public class LaserTrigger extends Trigger {
     private final String name;
-    private Location newLocation;
+    private final Location newLocation;
 
-    public LaserTrigger(String[] data) {
+    public LaserTrigger(String[] data) throws InvalidArgumentException {
         super(data);
 
         this.name = data[0];
 
         World w = Bukkit.getWorld(data[1]);
         if (w == null) {
-            Bukkit.getLogger().info("De wereld is null!");
-            return;
+            throw new InvalidArgumentException("Provided World in LaserTrigger is null!");
         }
 
         int x;
@@ -31,8 +31,7 @@ public class LaserTrigger extends Trigger {
             y = Integer.parseInt(data[3]);
             z = Integer.parseInt(data[4]);
         } catch (NumberFormatException ex) {
-            Bukkit.getLogger().info("De positie is null!");
-            return;
+            throw new InvalidArgumentException("Provided position in LaserTrigger is invalid!");
         }
 
         this.newLocation = new Location(w, x, y, z);

@@ -11,7 +11,7 @@ import nl.sbdeveloper.showcontrol.utils.YamlFile;
 import java.io.File;
 import java.util.*;
 
-public class DataSaving {
+public class DataStorage {
     private static final Map<String, YamlFile> files = new HashMap<>();
 
     public static Map<String, YamlFile> getFiles() {
