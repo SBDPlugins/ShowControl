@@ -1,7 +1,7 @@
-package nl.sbdeveloper.showcontrol.api.triggers;
+package nl.sbdeveloper.showcontrol.api.triggers.impl;
 
-import nl.sbdeveloper.showcontrol.api.TriggerTask;
-import nl.sbdeveloper.showcontrol.api.TriggerType;
+import nl.sbdeveloper.showcontrol.api.triggers.Trigger;
+import nl.sbdeveloper.showcontrol.api.triggers.TriggerIdentifier;
 import nl.sbdeveloper.showcontrol.elements.Fireworks;
 import nl.sbdeveloper.showcontrol.utils.Color;
 import org.bukkit.Bukkit;
@@ -9,12 +9,13 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-public class FireworkTrigger extends TriggerTask {
+@TriggerIdentifier(value = "firework", minArgs = 5, argDesc = "<world> <x> <y> <z> <configuration ...>")
+public class FireworkTrigger extends Trigger {
     private Fireworks.Firework fw;
     private Location spawnLoc;
 
     public FireworkTrigger(String[] data) {
-        super(TriggerType.FIREWORK, data);
+        super(data);
 
         World w = Bukkit.getWorld(data[0]);
         if (w == null) {

@@ -1,19 +1,20 @@
-package nl.sbdeveloper.showcontrol.api.triggers;
+package nl.sbdeveloper.showcontrol.api.triggers.impl;
 
-import nl.sbdeveloper.showcontrol.api.TriggerTask;
-import nl.sbdeveloper.showcontrol.api.TriggerType;
+import nl.sbdeveloper.showcontrol.api.triggers.Trigger;
+import nl.sbdeveloper.showcontrol.api.triggers.TriggerIdentifier;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 
-public class ParticleTrigger extends TriggerTask {
+@TriggerIdentifier(value = "particle", minArgs = 6, argDesc = "<world> <x> <y> <z> <type> <count>")
+public class ParticleTrigger extends Trigger {
     private Particle type;
     private Location spawnLoc;
     private int count;
 
     public ParticleTrigger(String[] data) {
-        super(TriggerType.PARTICLE, data);
+        super(data);
 
         World w = Bukkit.getWorld(data[0]);
         if (w == null) {

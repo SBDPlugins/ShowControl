@@ -1,14 +1,16 @@
 package nl.sbdeveloper.showcontrol.api;
 
+import nl.sbdeveloper.showcontrol.api.triggers.Trigger;
+
 import java.util.UUID;
 
 /**
  * A cue point of a show
  */
-public class ShowCue {
+public class ShowCuePoint {
     private final UUID cueID;
     private final Long time;
-    private final TriggerTask data;
+    private final Trigger data;
 
     /**
      * Create a new cue point
@@ -16,7 +18,7 @@ public class ShowCue {
      * @param time The starttime (milli)
      * @param data The data
      */
-    public ShowCue(Long time, TriggerTask data) {
+    public ShowCuePoint(Long time, Trigger data) {
         this(UUID.randomUUID(), time, data);
     }
 
@@ -27,7 +29,7 @@ public class ShowCue {
      * @param time The starttime (milli)
      * @param data The data
      */
-    public ShowCue(UUID uuid, Long time, TriggerTask data) {
+    public ShowCuePoint(UUID uuid, Long time, Trigger data) {
         this.cueID = uuid;
         this.time = time;
         this.data = data;
@@ -56,7 +58,7 @@ public class ShowCue {
      *
      * @return The data
      */
-    public TriggerTask getTask() {
+    public Trigger getTask() {
         return data;
     }
 }

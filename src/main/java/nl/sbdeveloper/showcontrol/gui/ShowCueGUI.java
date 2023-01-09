@@ -4,7 +4,7 @@ import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.Pagination;
 import fr.minuskube.inv.content.SlotIterator;
-import nl.sbdeveloper.showcontrol.api.ShowCue;
+import nl.sbdeveloper.showcontrol.api.ShowCuePoint;
 import nl.sbdeveloper.showcontrol.data.Shows;
 import nl.sbdeveloper.showcontrol.utils.Inventory;
 import nl.sbdeveloper.showcontrol.utils.ItemBuilder;
@@ -33,7 +33,7 @@ public class ShowCueGUI extends Inventory {
         Pagination pagination = contents.pagination();
 
         List<ClickableItem> items = new ArrayList<>();
-        Shows.getPoints(showName).stream().sorted(Comparator.comparing(ShowCue::getTime))
+        Shows.getPoints(showName).stream().sorted(Comparator.comparing(ShowCuePoint::getTime))
                 .forEach(cue -> items.add(ClickableItem.of(MainUtil.pointToItem(cue), e -> {
                     Shows.removePoint(showName, cue);
                     open(player, pagination.getPage());

@@ -1,18 +1,19 @@
-package nl.sbdeveloper.showcontrol.api.triggers;
+package nl.sbdeveloper.showcontrol.api.triggers.impl;
 
-import nl.sbdeveloper.showcontrol.api.TriggerTask;
-import nl.sbdeveloper.showcontrol.api.TriggerType;
-import nl.sbdeveloper.showcontrol.elements.Spots;
+import nl.sbdeveloper.showcontrol.api.triggers.Trigger;
+import nl.sbdeveloper.showcontrol.api.triggers.TriggerIdentifier;
+import nl.sbdeveloper.showcontrol.elements.Lasers;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-public class SpotTrigger extends TriggerTask {
+@TriggerIdentifier(value = "laser", minArgs = 5, argDesc = "<name> <world> <x> <y> <z>")
+public class LaserTrigger extends Trigger {
     private final String name;
     private Location newLocation;
 
-    public SpotTrigger(String[] data) {
-        super(TriggerType.SPOT, data);
+    public LaserTrigger(String[] data) {
+        super(data);
 
         this.name = data[0];
 
@@ -36,19 +37,18 @@ public class SpotTrigger extends TriggerTask {
 
         this.newLocation = new Location(w, x, y, z);
 
-        if (!Spots.exists(name)) {
-            Spots.start(name, newLocation);
+        if (!Lasers.exists(name)) {
+            Lasers.start(name, newLocation);
         }
     }
 
     @Override
     public void trigger() {
-//        ShowAPI.Spots.move(name, newLocation);
-        Bukkit.broadcastMessage("[ShowAPI] De trigger " + name + " is genegeerd, omdat de SPOT is disabled.");
+        Lasers.move(name, newLocation);
     }
 
     @Override
     public void remove() {
-        Spots.remove(name);
+        Lasers.remove(name);
     }
 }

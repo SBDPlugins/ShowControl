@@ -2,10 +2,12 @@ package nl.sbdeveloper.showcontrol.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import nl.sbdeveloper.showcontrol.api.TriggerTask;
+import nl.sbdeveloper.showcontrol.api.InvalidTriggerException;
+import nl.sbdeveloper.showcontrol.api.ShowAPI;
+import nl.sbdeveloper.showcontrol.api.TooFewArgumentsException;
+import nl.sbdeveloper.showcontrol.api.triggers.Trigger;
 import nl.sbdeveloper.showcontrol.data.Shows;
 import nl.sbdeveloper.showcontrol.gui.ShowCueGUI;
-import nl.sbdeveloper.showcontrol.utils.MainUtil;
 import nl.sbdeveloper.showcontrol.utils.TimeUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -67,8 +69,17 @@ public class ShowCMD extends BaseCommand {
             return;
         }
 
-        TriggerTask data = MainUtil.parseData(args);
-        if (data == null) {
+        Trigger data;
+        try {
+            data = ShowAPI.getTrigger(args);
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+            sender.sendMessage(ChatColor.RED + "Er is iets fout gegaan! Vraag de server eigenaar voor meer informatie.");
+            return;
+        } catch (InvalidTriggerException e) {
+            sender.sendMessage(ChatColor.RED + "De meegegeven trigger bestaat niet.");
+            return;
+        } catch (TooFewArgumentsException e) {
             sender.sendMessage(ChatColor.RED + "Je hebt niet genoeg informatie meegeven voor de trigger.");
             return;
         }
