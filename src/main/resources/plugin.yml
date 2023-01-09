@@ -1,7 +1,7 @@
-name: ShowAPI
+name: ShowControl
 version: ${project.version}
-main: nl.sbdeveloper.showapi.ShowAPIPlugin
-api-version: 1.17
+main: nl.sbdeveloper.showcontrol.ShowControlPlugin
+api-version: 1.13
 authors: [SBDeveloper]
 description: Make perfect shows with this API!
-website: https://sbdplugins.nl
+website: https://sbdevelopment.tech

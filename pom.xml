@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.SBDeveloper</groupId>
-    <artifactId>ShowAPI</artifactId>
+    <artifactId>ShowControl</artifactId>
     <version>1.3</version>
     <packaging>jar</packaging>
-    <name>ShowAPI</name>
+    <name>ShowControl</name>
     <url>https://sbdplugins.nl</url>
 
-    <description>Make perfect shows with this API!</description>
+    <description>Create shows easily using this plugin!</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -54,24 +54,20 @@
                             <shadedArtifactAttached>false</shadedArtifactAttached>
                             <relocations>
                                 <relocation>
-                                    <pattern>org.inventivetalent.apihelper</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showapi.helpers.apihelper</shadedPattern>
-                                </relocation>
-                                <relocation>
                                     <pattern>fr.minuskube.inv</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showapi.helpers.inv</shadedPattern>
+                                    <shadedPattern>nl.sbdeveloper.showcontrol.libs.inv</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>com.github.fierioziy.particlenativeapi</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showapi.helpers.particleapi</shadedPattern>
+                                    <pattern>fr.skytasul.guardianbeam</pattern>
+                                    <shadedPattern>nl.sbdeveloper.showcontrol.libs.guardianbeam</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>co.aikar.commands</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showapi.helpers.acf</shadedPattern>
+                                    <shadedPattern>nl.sbdeveloper.showcontrol.libs.commands</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>co.aikar.locales</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showapi.helpers.locales</shadedPattern>
+                                    <shadedPattern>nl.sbdeveloper.showcontrol.libs.locales</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -123,12 +119,6 @@
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
             <version>9.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.fierioziy.particlenativeapi</groupId>
-            <artifactId>ParticleNativeAPI-plugin</artifactId>
-            <version>3.3.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>co.aikar</groupId>
