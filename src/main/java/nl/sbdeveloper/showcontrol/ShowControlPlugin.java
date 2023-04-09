@@ -34,10 +34,7 @@ public final class ShowControlPlugin extends JavaPlugin {
         getLogger().info("Loading default triggers...");
         ShowAPI.index(ShowControlPlugin.class, "nl.sbdeveloper.showcontrol.api.triggers.impl");
 
-        Bukkit.getScheduler().runTaskLater(this, () -> {
-            getLogger().info("Loading data...");
-            DataStorage.load();
-        }, 1L); //Load 1 tick later, because of multi world
+        Bukkit.getScheduler().runTaskLater(this, DataStorage::load, 1L); //Load 1 tick later, because of multi world
 
         getLogger().info("Plugin enabled!");
         getLogger().info("-------------------------------");

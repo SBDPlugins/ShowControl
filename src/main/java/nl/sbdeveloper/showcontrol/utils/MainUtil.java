@@ -1,8 +1,8 @@
 package nl.sbdeveloper.showcontrol.utils;
 
 import nl.sbdeveloper.showcontrol.api.ShowCuePoint;
+import nl.sbdeveloper.showcontrol.api.triggers.TriggerIdentifier;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.ChatPaginator;
 
@@ -15,7 +15,9 @@ public class MainUtil {
     }
 
     public static ItemStack pointToItem(ShowCuePoint point) {
-        ItemBuilder builder = new ItemBuilder(Material.NOTE_BLOCK);
+        TriggerIdentifier identifier = point.getTask().getClass().getAnnotation(TriggerIdentifier.class);
+
+        ItemBuilder builder = new ItemBuilder(identifier.item());
         builder.setName(ChatColor.ITALIC + "TimeCode: " + TimeUtil.makeReadable(point.getTime()));
 
         List<String> lores = new ArrayList<>();
