@@ -1,25 +1,23 @@
-package nl.sbdeveloper.showcontrol.api.triggers;
+package nl.sbdeveloper.showcontrol.api.triggers.impl;
 
-import nl.sbdeveloper.showcontrol.api.TriggerTask;
-import nl.sbdeveloper.showcontrol.api.TriggerType;
+import nl.sbdeveloper.showcontrol.api.InvalidArgumentException;
+import nl.sbdeveloper.showcontrol.api.triggers.Trigger;
+import nl.sbdeveloper.showcontrol.api.triggers.TriggerIdentifier;
 import nl.sbdeveloper.showcontrol.elements.Fireworks;
 import nl.sbdeveloper.showcontrol.utils.Color;
-import org.bukkit.Bukkit;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 
-public class FireworkTrigger extends TriggerTask {
-    private Fireworks.Firework fw;
-    private Location spawnLoc;
+@TriggerIdentifier(value = "firework", minArgs = 5, argDesc = "<world> <x> <y> <z> <configuration ...>", item = Material.FIREWORK_ROCKET)
+public class FireworkTrigger extends Trigger {
+    private final Fireworks.Firework fw;
+    private final Location spawnLoc;
 
-    public FireworkTrigger(String[] data) {
-        super(TriggerType.FIREWORK, data);
+    public FireworkTrigger(String[] data) throws InvalidArgumentException {
+        super(data);
 
         World w = Bukkit.getWorld(data[0]);
         if (w == null) {
-            Bukkit.getLogger().info("De wereld is null!");
-            return;
+            throw new InvalidArgumentException("Provided World in FireworkTrigger is null!");
         }
 
         int x;
@@ -30,8 +28,7 @@ public class FireworkTrigger extends TriggerTask {
             y = Integer.parseInt(data[2]);
             z = Integer.parseInt(data[3]);
         } catch (NumberFormatException ex) {
-            Bukkit.getLogger().info("De positie is incorrect!");
-            return;
+            throw new InvalidArgumentException("Provided position in FireworkTrigger is invalid!");
         }
 
         this.spawnLoc = new Location(w, x, y, z);

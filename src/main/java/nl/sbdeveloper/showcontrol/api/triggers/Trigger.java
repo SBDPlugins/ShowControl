@@ -1,16 +1,12 @@
-package nl.sbdeveloper.showcontrol.api;
+package nl.sbdeveloper.showcontrol.api.triggers;
 
-public abstract class TriggerTask {
-    private final TriggerType type;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public abstract class Trigger {
     private final String[] dataString;
-
-    /**
-     * Create a new trigger
-     */
-    public TriggerTask(TriggerType type, String[] dataString) {
-        this.type = type;
-        this.dataString = dataString;
-    }
 
     /**
      * This method gets fired when the cue gets triggered
@@ -24,15 +20,6 @@ public abstract class TriggerTask {
     public void remove() {}
 
     /**
-     * Get the trigger type
-     *
-     * @return The trigger type
-     */
-    public TriggerType getType() {
-        return type;
-    }
-
-    /**
      * Get the datastring from this cue
      *
      * @return The datastring
@@ -43,5 +30,9 @@ public abstract class TriggerTask {
             builder.append(s).append(" ");
         }
         return builder.toString().trim();
+    }
+
+    public String getTriggerId() {
+        return getClass().getAnnotation(TriggerIdentifier.class).value();
     }
 }

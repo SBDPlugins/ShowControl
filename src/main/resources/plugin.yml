@@ -3,5 +3,5 @@ version: ${project.version}
 main: nl.sbdeveloper.showcontrol.ShowControlPlugin
 api-version: 1.13
 authors: [SBDeveloper]
-description: Make perfect shows with this API!
+description: Create shows easily using this plugin!
 website: https://sbdevelopment.tech

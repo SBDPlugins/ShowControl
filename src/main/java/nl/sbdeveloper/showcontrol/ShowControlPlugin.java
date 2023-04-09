@@ -1,17 +1,13 @@
 package nl.sbdeveloper.showcontrol;
 
 import co.aikar.commands.PaperCommandManager;
-import nl.sbdeveloper.showcontrol.api.TriggerType;
+import nl.sbdeveloper.showcontrol.api.ShowAPI;
 import nl.sbdeveloper.showcontrol.commands.ShowCMD;
-import nl.sbdeveloper.showcontrol.data.DataConversion;
-import nl.sbdeveloper.showcontrol.data.DataSaving;
+import nl.sbdeveloper.showcontrol.data.DataStorage;
 import nl.sbdeveloper.showcontrol.data.Shows;
 import nl.sbdeveloper.showcontrol.utils.Inventory;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public final class ShowControlPlugin extends JavaPlugin {
     private static ShowControlPlugin instance;
@@ -20,28 +16,41 @@ public final class ShowControlPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        DataConversion.handle();
+        getLogger().info("-------------------------------");
+        getLogger().info("ShowControl v" + getDescription().getVersion());
+        getLogger().info("Made by SBDeveloper");
+        getLogger().info(" ");
 
+        getLogger().info("Loading commands...");
         final PaperCommandManager commandManager = new PaperCommandManager(this);
         commandManager.enableUnstableAPI("help");
-
         commandManager.registerCommand(new ShowCMD());
-
         commandManager.getCommandCompletions().registerCompletion("showname", c -> Shows.getShowsMap().keySet());
-        commandManager.getCommandCompletions().registerStaticCompletion("showtype", Arrays.stream(TriggerType.values()).map(Enum::name).collect(Collectors.toList()));
+        commandManager.getCommandCompletions().registerCompletion("showtype", c -> ShowAPI.getTriggers().keySet());
 
+        getLogger().info("Loading GUI manageer...");
         Inventory.init();
 
-        Bukkit.getScheduler().runTaskLater(this, DataSaving::load, 1L); //Load 1 tick later, because of multi world
+        getLogger().info("Loading default triggers...");
+        ShowAPI.index(ShowControlPlugin.class, "nl.sbdeveloper.showcontrol.api.triggers.impl");
+
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            getLogger().info("Loading data...");
+            DataStorage.load();
+        }, 1L); //Load 1 tick later, because of multi world
+
+        getLogger().info("Plugin enabled!");
+        getLogger().info("-------------------------------");
     }
 
     @Override
     public void onDisable() {
-        instance = null;
-
-        DataSaving.save();
-
+        getLogger().info("Saving data...");
+        DataStorage.save();
         Shows.getShowsMap().values().forEach(show -> show.forEach(showCue -> showCue.getTask().remove()));
+
+        getLogger().info("Plugin disabled!");
+        instance = null;
     }
 
     public static ShowControlPlugin getInstance() {
