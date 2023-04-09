@@ -45,7 +45,7 @@ public class ShowCMD extends BaseCommand {
 
     @Subcommand("add")
     @Description("")
-    @CommandCompletion("@showname @empty @showtype")
+    @CommandCompletion("@showname @empty @showtype @empty")
     public void onAdd(CommandSender sender, String name, String time, String args) {
         if (!Shows.exists(name)) {
             sender.sendMessage(ChatColor.RED + "That show doesn't exists.");
@@ -72,6 +72,9 @@ public class ShowCMD extends BaseCommand {
             return;
         } catch (TooFewArgumentsException e) {
             sender.sendMessage(ChatColor.RED + "You did not provide enough information for the chosen trigger.");
+            return;
+        } catch (IllegalArgumentException e) {
+            sender.sendMessage(ChatColor.RED + "Couldn't create the trigger: " + e.getMessage());
             return;
         }
 

@@ -42,7 +42,7 @@ public class ShowAPI {
         }
     }
 
-    public static <T extends Trigger> T getTrigger(String data) throws ReflectiveOperationException, InvalidTriggerException, TooFewArgumentsException {
+    public static <T extends Trigger> T getTrigger(String data) throws ReflectiveOperationException, InvalidTriggerException, TooFewArgumentsException, IllegalArgumentException {
         String[] dataSplitter = data.split(" ");
         String[] dataSplitterNew = Arrays.copyOfRange(dataSplitter, 1, dataSplitter.length);
 
@@ -52,6 +52,6 @@ public class ShowAPI {
 
         Constructor<T> ctor = (Constructor<T>) triggers.get(triggerType).getConstructor(String[].class);
         if (dataSplitter.length < triggers.get(triggerType).getAnnotation(TriggerIdentifier.class).minArgs() + 1) throw new TooFewArgumentsException("Provided triggerdata " + data + " has too few arguments!");
-        return ctor.newInstance(dataSplitterNew);
+        return ctor.newInstance(new Object[] { dataSplitterNew });
     }
 }
