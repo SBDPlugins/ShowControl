@@ -17,9 +17,6 @@ public class MainUtil {
     public static ItemStack pointToItem(ShowCuePoint point) {
         TriggerIdentifier identifier = point.getTask().getClass().getAnnotation(TriggerIdentifier.class);
 
-        ItemBuilder builder = new ItemBuilder(identifier.item());
-        builder.setName(ChatColor.ITALIC + "TimeCode: " + TimeUtil.makeReadable(point.getTime()));
-
         List<String> lores = new ArrayList<>();
         lores.add(ChatColor.GREEN + "Type: " + ChatColor.AQUA + capitalize(point.getTask().getTriggerId()));
         lores.add(ChatColor.GREEN + "Data:");
@@ -29,8 +26,9 @@ public class MainUtil {
         lores.add("");
         lores.add(ChatColor.RED + ChatColor.BOLD.toString() + "Click to remove!");
 
-        builder.setLore(lores);
-        return builder.toItemStack();
+        return new ItemBuilder(identifier.item())
+                .displayname(ChatColor.ITALIC + "TimeCode: " + TimeUtil.makeReadable(point.getTime()))
+                .lore(lores).getItemStack();
     }
 
     public static String capitalize(String str) {
