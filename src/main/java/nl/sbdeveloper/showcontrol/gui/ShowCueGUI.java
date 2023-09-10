@@ -20,7 +20,7 @@ import static nl.sbdeveloper.showcontrol.utils.MainUtil.__;
 
 public class ShowCueGUI extends PaginationInventory {
     public ShowCueGUI(Player p, String name) {
-        super(6, ChatColor.DARK_AQUA + "Show Cue Manager:");
+        super(5, ChatColor.DARK_AQUA + "Show Cue Manager:");
 
         Shows.getPoints(name).stream().sorted(Comparator.comparing(ShowCuePoint::getTime))
                 .forEach(cue -> addItem(ClickableItem.of(MainUtil.pointToItem(cue), e -> {
