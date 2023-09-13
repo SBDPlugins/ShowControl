@@ -5,7 +5,7 @@ import nl.sbdeveloper.showcontrol.api.ShowAPI;
 import nl.sbdeveloper.showcontrol.commands.ShowCMD;
 import nl.sbdeveloper.showcontrol.data.DataStorage;
 import nl.sbdeveloper.showcontrol.data.Shows;
-import nl.sbdeveloper.showcontrol.utils.Inventory;
+import nl.sbdeveloper.showcontrol.utils.inventories.Inventory;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,7 +29,7 @@ public final class ShowControlPlugin extends JavaPlugin {
         commandManager.getCommandCompletions().registerCompletion("showtype", c -> ShowAPI.getTriggers().keySet());
 
         getLogger().info("Loading GUI manageer...");
-        Inventory.init();
+        Inventory.init(this);
 
         getLogger().info("Loading default triggers...");
         ShowAPI.index(ShowControlPlugin.class, "nl.sbdeveloper.showcontrol.api.triggers.impl");
