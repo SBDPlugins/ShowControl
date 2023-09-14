@@ -44,7 +44,6 @@ public class SpotTrigger extends Trigger {
     @Override
     public void trigger() {
         Spots.move(name, newLocation);
-        Bukkit.broadcastMessage("[ShowAPI] De trigger " + name + " is genegeerd, omdat de SPOT is disabled.");
     }
 
     @Override

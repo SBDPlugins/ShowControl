@@ -6,10 +6,9 @@ import fr.minuskube.inv.InventoryManager;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
-import tech.sbdevelopment.showcontrol.utils.ItemBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import tech.sbdevelopment.showcontrol.utils.ItemBuilder;
 
 import static tech.sbdevelopment.showcontrol.utils.MainUtil.__;
 
@@ -36,7 +35,6 @@ public abstract class Inventory implements InventoryProvider {
     }
 
     protected void open(Player player, int page) {
-        Bukkit.getLogger().info("Opening page " + page + " for " + player.getName() + "...");
         this.inventory.open(player, page);
     }
 
