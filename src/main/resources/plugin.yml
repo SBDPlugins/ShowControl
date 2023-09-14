@@ -1,6 +1,6 @@
 name: ShowControl
 version: ${project.version}
-main: nl.sbdeveloper.showcontrol.ShowControlPlugin
+main: tech.sbdevelopment.showcontrol.ShowControlPlugin
 api-version: 1.13
 authors: [SBDeveloper]
 description: Create shows easily using this plugin!

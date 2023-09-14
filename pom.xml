@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>nl.SBDeveloper</groupId>
+    <groupId>tech.sbdevelopment</groupId>
     <artifactId>ShowControl</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
     <packaging>jar</packaging>
     <name>ShowControl</name>
-    <url>https://sbdplugins.nl</url>
+    <url>https://sbdevelopment.tech</url>
 
     <description>Create shows easily using this plugin!</description>
     <properties>
