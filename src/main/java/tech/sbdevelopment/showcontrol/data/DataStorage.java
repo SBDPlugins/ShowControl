@@ -1,8 +1,8 @@
 package tech.sbdevelopment.showcontrol.data;
 
 import tech.sbdevelopment.showcontrol.ShowControlPlugin;
+import tech.sbdevelopment.showcontrol.api.SCAPI;
 import tech.sbdevelopment.showcontrol.api.exceptions.InvalidTriggerException;
-import tech.sbdevelopment.showcontrol.api.ShowAPI;
 import tech.sbdevelopment.showcontrol.api.points.ShowCuePoint;
 import tech.sbdevelopment.showcontrol.api.exceptions.TooFewArgumentsException;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
@@ -36,7 +36,7 @@ public class DataStorage {
                 UUID cueID = UUID.fromString(id);
                 Trigger data;
                 try {
-                    data = ShowAPI.getTrigger(showConfig.getFile().getString(id + ".Type") + " " + showConfig.getFile().getString(id + ".Data"));
+                    data = SCAPI.getTrigger(showConfig.getFile().getString(id + ".Type") + " " + showConfig.getFile().getString(id + ".Data"));
                 } catch (ReflectiveOperationException | InvalidTriggerException | TooFewArgumentsException e) {
                     e.printStackTrace();
                     return;
@@ -45,12 +45,12 @@ public class DataStorage {
 
                 cues.add(new ShowCuePoint(cueID, time, data));
             }
-            Shows.getShowsMap().put(showID, cues);
+            SCAPI.getShowsMap().put(showID, cues);
         }
     }
 
     public static void save() {
-        for (Map.Entry<String, List<ShowCuePoint>> entry : Shows.getShowsMap().entrySet()) {
+        for (Map.Entry<String, List<ShowCuePoint>> entry : SCAPI.getShowsMap().entrySet()) {
             YamlFile file = files.containsKey(entry.getKey()) ? files.get(entry.getKey()) : new YamlFile(ShowControlPlugin.getInstance(), "data/" + entry.getKey());
             for (ShowCuePoint cue : entry.getValue()) {
                 file.getFile().set(cue.getCueID().toString() + ".Time", cue.getTime());

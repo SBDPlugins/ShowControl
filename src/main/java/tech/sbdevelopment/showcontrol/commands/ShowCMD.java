@@ -3,10 +3,9 @@ package tech.sbdevelopment.showcontrol.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import tech.sbdevelopment.showcontrol.api.exceptions.InvalidTriggerException;
-import tech.sbdevelopment.showcontrol.api.ShowAPI;
 import tech.sbdevelopment.showcontrol.api.exceptions.TooFewArgumentsException;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
-import tech.sbdevelopment.showcontrol.data.Shows;
+import tech.sbdevelopment.showcontrol.api.SCAPI;
 import tech.sbdevelopment.showcontrol.gui.ShowCueGUI;
 import tech.sbdevelopment.showcontrol.utils.TimeUtil;
 import org.bukkit.ChatColor;
@@ -19,12 +18,12 @@ public class ShowCMD extends BaseCommand {
     @Subcommand("create")
     @Description("")
     public void onCreate(CommandSender sender, @Single String name) {
-        if (Shows.exists(name)) {
+        if (SCAPI.exists(name)) {
             sender.sendMessage(ChatColor.RED + "That show already exists.");
             return;
         }
 
-        Shows.create(name);
+        SCAPI.create(name);
 
         sender.sendMessage(ChatColor.GREEN + "The show " + ChatColor.WHITE + name + ChatColor.GREEN + " has been created!");
     }
@@ -33,12 +32,12 @@ public class ShowCMD extends BaseCommand {
     @Description("")
     @CommandCompletion("@showname")
     public void onDelete(CommandSender sender, @Single String name) {
-        if (!Shows.exists(name)) {
+        if (!SCAPI.exists(name)) {
             sender.sendMessage(ChatColor.RED + "That show doesn't exists.");
             return;
         }
 
-        Shows.delete(name);
+        SCAPI.delete(name);
 
         sender.sendMessage(ChatColor.GREEN + "The show " + ChatColor.WHITE + name + ChatColor.GREEN + " has been removed!");
     }
@@ -47,7 +46,7 @@ public class ShowCMD extends BaseCommand {
     @Description("")
     @CommandCompletion("@showname @empty @showtype @empty")
     public void onAdd(CommandSender sender, String name, String time, String args) {
-        if (!Shows.exists(name)) {
+        if (!SCAPI.exists(name)) {
             sender.sendMessage(ChatColor.RED + "That show doesn't exists.");
             return;
         }
@@ -62,7 +61,7 @@ public class ShowCMD extends BaseCommand {
 
         Trigger data;
         try {
-            data = ShowAPI.getTrigger(args);
+            data = SCAPI.getTrigger(args);
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
             sender.sendMessage(ChatColor.RED + "Something went wrong! Please ask a server admin.");
@@ -78,7 +77,7 @@ public class ShowCMD extends BaseCommand {
             return;
         }
 
-        Shows.addPoint(name, timeMilli, data);
+        SCAPI.addPoint(name, timeMilli, data);
         sender.sendMessage(ChatColor.GREEN + "The show " + ChatColor.WHITE + name + ChatColor.GREEN + " now contains an extra point!");
     }
 
@@ -86,12 +85,12 @@ public class ShowCMD extends BaseCommand {
     @Description("")
     @CommandCompletion("@showname")
     public void onStart(CommandSender sender, @Single String name) {
-        if (!Shows.exists(name)) {
+        if (!SCAPI.exists(name)) {
             sender.sendMessage(ChatColor.RED + "That show doesn't exists.");
             return;
         }
 
-        Shows.startShow(name);
+        SCAPI.startShow(name);
 
         sender.sendMessage(ChatColor.GREEN + "The show " + ChatColor.WHITE + name + ChatColor.GREEN + " has been started!");
     }
@@ -100,12 +99,12 @@ public class ShowCMD extends BaseCommand {
     @Description("")
     @CommandCompletion("@showname")
     public void onCancel(CommandSender sender, @Single String name) {
-        if (!Shows.exists(name)) {
+        if (!SCAPI.exists(name)) {
             sender.sendMessage(ChatColor.RED + "That show doesn't exists.");
             return;
         }
 
-        Shows.cancelShow(name);
+        SCAPI.cancelShow(name);
 
         sender.sendMessage(ChatColor.GREEN + "The show " + ChatColor.WHITE + name + ChatColor.GREEN + " has been stopped!");
     }
@@ -114,7 +113,7 @@ public class ShowCMD extends BaseCommand {
     @Description("")
     @CommandCompletion("@showname")
     public void onGUI(Player sender, @Single String name) {
-        if (!Shows.exists(name)) {
+        if (!SCAPI.exists(name)) {
             sender.sendMessage(ChatColor.RED + "That show doesn't exists.");
             return;
         }
