@@ -52,8 +52,9 @@ public class ShowAPI {
             throw new InvalidTriggerException("Provided trigger " + triggerType + " does not exists!");
 
         Constructor<T> ctor = (Constructor<T>) triggers.get(triggerType).getConstructor(String[].class);
-        if (dataSplitter.length < triggers.get(triggerType).getAnnotation(TriggerIdentifier.class).minArgs() + 1)
-            throw new TooFewArgumentsException("Provided triggerdata " + data + " has too few arguments!");
+        TriggerIdentifier identifier = triggers.get(triggerType).getAnnotation(TriggerIdentifier.class);
+        if (dataSplitter.length < identifier.minArgs() + 1)
+            throw new TooFewArgumentsException(identifier.argDesc());
         return ctor.newInstance(new Object[]{dataSplitterNew});
     }
 }

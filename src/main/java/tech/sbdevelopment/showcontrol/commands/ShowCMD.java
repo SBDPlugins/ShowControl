@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandAlias("showcontrol|sc")
-@CommandPermission("mctp.show")
+@CommandPermission("sc.admin")
 public class ShowCMD extends BaseCommand {
     @Subcommand("create")
     @Description("")
@@ -71,7 +71,7 @@ public class ShowCMD extends BaseCommand {
             sender.sendMessage(ChatColor.RED + "The provided trigger does not exists.");
             return;
         } catch (TooFewArgumentsException e) {
-            sender.sendMessage(ChatColor.RED + "You did not provide enough information for the chosen trigger.");
+            sender.sendMessage(ChatColor.RED + "You did not provide enough information for the chosen trigger! Required arguments: " + e.getMessage());
             return;
         } catch (IllegalArgumentException e) {
             sender.sendMessage(ChatColor.RED + "Couldn't create the trigger: " + e.getMessage());
