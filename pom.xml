@@ -62,23 +62,23 @@
                             <relocations>
                                 <relocation>
                                     <pattern>fr.minuskube.inv</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showcontrol.libs.inv</shadedPattern>
+                                    <shadedPattern>tech.sbdevelopment.showcontrol.libs.inv</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>fr.skytasul.guardianbeam</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showcontrol.libs.guardianbeam</shadedPattern>
+                                    <shadedPattern>tech.sbdevelopment.showcontrol.libs.guardianbeam</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>co.aikar.commands</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showcontrol.libs.commands</shadedPattern>
+                                    <shadedPattern>tech.sbdevelopment.showcontrol.libs.commands</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>co.aikar.locales</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showcontrol.libs.locales</shadedPattern>
+                                    <shadedPattern>tech.sbdevelopment.showcontrol.libs.locales</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.reflections</pattern>
-                                    <shadedPattern>nl.sbdeveloper.showcontrol.libs.reflections</shadedPattern>
+                                    <shadedPattern>tech.sbdevelopment.showcontrol.libs.reflections</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

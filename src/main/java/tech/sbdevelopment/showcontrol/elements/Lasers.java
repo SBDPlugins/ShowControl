@@ -57,7 +57,7 @@ public class Lasers {
             @Override
             public void run() {
                 if (oldLoc.getBlockX() != posLoc.getBlockX()) {
-                    if (oldLoc.getX() > posLoc.getX()) { //De x gaat omhoog
+                    if (oldLoc.getX() > posLoc.getX()) { //Increase of X
                         oldLoc = oldLoc.add(0.01, 0, 0);
                     } else {
                         oldLoc = oldLoc.add(-0.01, 0, 0);
@@ -68,7 +68,7 @@ public class Lasers {
                 }
 
                 if (oldLoc.getBlockY() != posLoc.getBlockY()) {
-                    if (oldLoc.getY() > posLoc.getY()) { //De y gaat omhoog
+                    if (oldLoc.getY() > posLoc.getY()) { //Increase of Y
                         oldLoc = oldLoc.add(0, 0.01, 0);
                     } else {
                         oldLoc = oldLoc.add(0, -0.01, 0);
@@ -79,7 +79,7 @@ public class Lasers {
                 }
 
                 if (oldLoc.getBlockZ() != posLoc.getBlockZ()) {
-                    if (oldLoc.getZ() > posLoc.getZ()) { //De z gaat omhoog
+                    if (oldLoc.getZ() > posLoc.getZ()) { //Increase of Z
                         oldLoc = oldLoc.add(0, 0, 0.01);
                     } else {
                         oldLoc = oldLoc.add(0, 0, -0.01);

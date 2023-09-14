@@ -44,7 +44,7 @@ public final class ShowControlPlugin extends JavaPlugin {
     public void onDisable() {
         getLogger().info("Saving data...");
         DataStorage.save();
-        Shows.getShowsMap().values().forEach(show -> show.forEach(showCue -> showCue.getTask().remove()));
+        Shows.getShowsMap().values().forEach(show -> show.forEach(showCue -> showCue.getData().remove()));
 
         getLogger().info("Plugin disabled!");
         instance = null;

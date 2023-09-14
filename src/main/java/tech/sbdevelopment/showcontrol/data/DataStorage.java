@@ -1,10 +1,10 @@
 package tech.sbdevelopment.showcontrol.data;
 
 import tech.sbdevelopment.showcontrol.ShowControlPlugin;
-import tech.sbdevelopment.showcontrol.api.InvalidTriggerException;
+import tech.sbdevelopment.showcontrol.api.exceptions.InvalidTriggerException;
 import tech.sbdevelopment.showcontrol.api.ShowAPI;
-import tech.sbdevelopment.showcontrol.api.ShowCuePoint;
-import tech.sbdevelopment.showcontrol.api.TooFewArgumentsException;
+import tech.sbdevelopment.showcontrol.api.points.ShowCuePoint;
+import tech.sbdevelopment.showcontrol.api.exceptions.TooFewArgumentsException;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
 import tech.sbdevelopment.showcontrol.utils.YamlFile;
 
@@ -28,7 +28,7 @@ public class DataStorage {
         File showsFolder = new File(ShowControlPlugin.getInstance().getDataFolder(), "data");
         for (File showFile : showsFolder.listFiles()) {
             String showID = removeExtension(showFile.getName());
-            YamlFile showConfig = new YamlFile("data/" + showID);
+            YamlFile showConfig = new YamlFile(ShowControlPlugin.getInstance(), "data/" + showID);
             files.put(showID, showConfig);
 
             List<ShowCuePoint> cues = new ArrayList<>();
@@ -51,11 +51,11 @@ public class DataStorage {
 
     public static void save() {
         for (Map.Entry<String, List<ShowCuePoint>> entry : Shows.getShowsMap().entrySet()) {
-            YamlFile file = files.containsKey(entry.getKey()) ? files.get(entry.getKey()) : new YamlFile("data/" + entry.getKey());
+            YamlFile file = files.containsKey(entry.getKey()) ? files.get(entry.getKey()) : new YamlFile(ShowControlPlugin.getInstance(), "data/" + entry.getKey());
             for (ShowCuePoint cue : entry.getValue()) {
                 file.getFile().set(cue.getCueID().toString() + ".Time", cue.getTime());
-                file.getFile().set(cue.getCueID().toString() + ".Type", cue.getTask().getTriggerId());
-                file.getFile().set(cue.getCueID().toString() + ".Data", cue.getTask().getDataString());
+                file.getFile().set(cue.getCueID().toString() + ".Type", cue.getData().getTriggerId());
+                file.getFile().set(cue.getCueID().toString() + ".Data", cue.getData().getDataString());
             }
             file.saveFile();
 

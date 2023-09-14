@@ -1,9 +1,9 @@
 package tech.sbdevelopment.showcontrol.utils;
 
-import tech.sbdevelopment.showcontrol.ShowControlPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,30 +13,32 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class YamlFile {
+    private final JavaPlugin plugin;
+    private final String name;
     private FileConfiguration fileConfiguration;
     private File file;
-    private final String name;
 
-    public YamlFile(String name) {
+    public YamlFile(JavaPlugin plugin, String name) {
+        this.plugin = plugin;
         this.name = name;
 
-        if (!ShowControlPlugin.getInstance().getDataFolder().exists()) {
-            if (!ShowControlPlugin.getInstance().getDataFolder().mkdir()) {
-                Bukkit.getLogger().severe("[ShowAPI] Couldn't generate the pluginfolder!");
+        if (!plugin.getDataFolder().exists()) {
+            if (!plugin.getDataFolder().mkdir()) {
+                Bukkit.getLogger().severe("[" + this.plugin.getName() + "] Couldn't generate the pluginfolder!");
                 return;
             }
         }
 
-        this.file = new File(ShowControlPlugin.getInstance().getDataFolder(), name + ".yml");
+        this.file = new File(plugin.getDataFolder(), name + ".yml");
         if (!this.file.exists()) {
             try {
                 if (!this.file.createNewFile()) {
-                    Bukkit.getLogger().severe("[ShowAPI] Couldn't generate the " + name + ".yml!");
+                    Bukkit.getLogger().severe("[" + this.plugin.getName() + "] Couldn't generate the " + name + ".yml!");
                     return;
                 }
-                Bukkit.getLogger().info("[ShowAPI] Generating the " + name + ".yml!");
+                Bukkit.getLogger().info("[" + this.plugin.getName() + "] Generating the " + name + ".yml!");
             } catch (IOException e) {
-                Bukkit.getLogger().severe("[ShowAPI] Couldn't generate the " + name + ".yml!");
+                Bukkit.getLogger().severe("[" + this.plugin.getName() + "] Couldn't generate the " + name + ".yml!");
                 return;
             }
         }
@@ -44,7 +46,7 @@ public class YamlFile {
     }
 
     public void loadDefaults() {
-        Reader defConfigStream1 = new InputStreamReader(Objects.requireNonNull(ShowControlPlugin.getInstance().getResource(name + ".yml"), "Resource is null"), StandardCharsets.UTF_8);
+        Reader defConfigStream1 = new InputStreamReader(Objects.requireNonNull(plugin.getResource(name + ".yml"), "Resource is null"), StandardCharsets.UTF_8);
         YamlConfiguration defConfig1 = YamlConfiguration.loadConfiguration(defConfigStream1);
         getFile().setDefaults(defConfig1);
         getFile().options().copyDefaults(true);
@@ -59,7 +61,7 @@ public class YamlFile {
         try {
             this.fileConfiguration.save(this.file);
         } catch (IOException e) {
-            Bukkit.getLogger().severe("[ShowAPI] Couldn't save the " + name + ".yml!");
+            Bukkit.getLogger().severe("[" + this.plugin.getName() + "] Couldn't save the " + name + ".yml!");
         }
     }
 

@@ -2,9 +2,9 @@ package tech.sbdevelopment.showcontrol.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import tech.sbdevelopment.showcontrol.api.InvalidTriggerException;
+import tech.sbdevelopment.showcontrol.api.exceptions.InvalidTriggerException;
 import tech.sbdevelopment.showcontrol.api.ShowAPI;
-import tech.sbdevelopment.showcontrol.api.TooFewArgumentsException;
+import tech.sbdevelopment.showcontrol.api.exceptions.TooFewArgumentsException;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
 import tech.sbdevelopment.showcontrol.data.Shows;
 import tech.sbdevelopment.showcontrol.gui.ShowCueGUI;

@@ -1,6 +1,6 @@
 package tech.sbdevelopment.showcontrol.api.triggers.impl;
 
-import tech.sbdevelopment.showcontrol.api.InvalidArgumentException;
+import tech.sbdevelopment.showcontrol.api.exceptions.InvalidArgumentException;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
 import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
 import tech.sbdevelopment.showcontrol.elements.Fireworks;

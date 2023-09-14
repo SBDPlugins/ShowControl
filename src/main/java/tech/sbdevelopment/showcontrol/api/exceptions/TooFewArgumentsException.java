@@ -1,4 +1,4 @@
-package tech.sbdevelopment.showcontrol.api;
+package tech.sbdevelopment.showcontrol.api.exceptions;
 
 import lombok.experimental.StandardException;
 

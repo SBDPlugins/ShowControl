@@ -1,7 +1,7 @@
 package tech.sbdevelopment.showcontrol.gui;
 
 import fr.minuskube.inv.ClickableItem;
-import tech.sbdevelopment.showcontrol.api.ShowCuePoint;
+import tech.sbdevelopment.showcontrol.api.points.ShowCuePoint;
 import tech.sbdevelopment.showcontrol.data.Shows;
 import tech.sbdevelopment.showcontrol.utils.MainUtil;
 import tech.sbdevelopment.showcontrol.utils.inventories.PaginationInventory;

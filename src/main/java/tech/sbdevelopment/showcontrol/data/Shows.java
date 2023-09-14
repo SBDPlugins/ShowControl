@@ -2,7 +2,7 @@ package tech.sbdevelopment.showcontrol.data;
 
 import lombok.Getter;
 import tech.sbdevelopment.showcontrol.ShowControlPlugin;
-import tech.sbdevelopment.showcontrol.api.ShowCuePoint;
+import tech.sbdevelopment.showcontrol.api.points.ShowCuePoint;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
 import tech.sbdevelopment.showcontrol.utils.YamlFile;
 import org.bukkit.Bukkit;
@@ -50,7 +50,7 @@ public class Shows {
     public static void removePoint(String name, ShowCuePoint point) {
         if (!exists(name)) return;
 
-        point.getTask().remove();
+        point.getData().remove();
         showsMap.get(name).remove(point);
 
         YamlFile data = DataStorage.getFiles().get(name);
@@ -63,7 +63,7 @@ public class Shows {
         if (!exists(name)) return;
         ScheduledExecutorService showTimer = Executors.newSingleThreadScheduledExecutor();
         for (ShowCuePoint point : getPoints(name)) {
-            showTimer.schedule(() -> Bukkit.getScheduler().runTask(ShowControlPlugin.getInstance(), () -> point.getTask().trigger()), point.getTime(), TimeUnit.MILLISECONDS);
+            showTimer.schedule(() -> Bukkit.getScheduler().runTask(ShowControlPlugin.getInstance(), () -> point.getData().trigger()), point.getTime(), TimeUnit.MILLISECONDS);
         }
         showTimers.put(name, showTimer);
     }

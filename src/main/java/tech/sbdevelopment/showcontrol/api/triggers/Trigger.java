@@ -33,6 +33,11 @@ public abstract class Trigger {
         return builder.toString().trim();
     }
 
+    /**
+     * Get the ID of the trigger
+     *
+     * @return The ID
+     */
     public String getTriggerId() {
         return getClass().getAnnotation(TriggerIdentifier.class).value();
     }

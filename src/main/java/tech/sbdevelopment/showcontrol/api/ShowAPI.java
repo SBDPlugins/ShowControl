@@ -2,6 +2,8 @@ package tech.sbdevelopment.showcontrol.api;
 
 import lombok.Getter;
 import tech.sbdevelopment.showcontrol.ShowControlPlugin;
+import tech.sbdevelopment.showcontrol.api.exceptions.InvalidTriggerException;
+import tech.sbdevelopment.showcontrol.api.exceptions.TooFewArgumentsException;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
 import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
 import org.reflections.Reflections;
