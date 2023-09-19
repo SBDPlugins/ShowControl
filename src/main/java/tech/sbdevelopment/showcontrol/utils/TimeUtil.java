@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
-/**
+/*
  * Source from:
  * https://github.com/Mindgamesnl/OpenAudioMc/blob/master/plugin/src/main/java/com/craftmend/openaudiomc/spigot/modules/show/util/TimeParser.java
  */
@@ -40,7 +40,7 @@ public class TimeUtil {
 
         String[] tickSplit = input.split("t");
         if (isValid(tickSplit)) {
-            time += Math.round(Integer.parseInt(tickSplit[0]) * 50);
+            time += Integer.parseInt(tickSplit[0]) * 50L;
             return time;
         }
 
@@ -48,7 +48,7 @@ public class TimeUtil {
     }
 
     private static boolean isValid(String[] array) {
-        return array.length > 1 && array[0].length() > 0;
+        return array.length > 1 && !array[0].isEmpty();
     }
 
     public static String makeReadable(Long time) {

@@ -1,6 +1,7 @@
 package tech.sbdevelopment.showcontrol.commands;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import tech.sbdevelopment.showcontrol.api.exceptions.InvalidTriggerException;
 import tech.sbdevelopment.showcontrol.api.exceptions.TooFewArgumentsException;
@@ -15,6 +16,13 @@ import org.bukkit.entity.Player;
 @CommandAlias("showcontrol|sc")
 @CommandPermission("sc.admin")
 public class ShowCMD extends BaseCommand {
+    @HelpCommand
+    @CatchUnknown
+    @Default
+    public static void onHelp(CommandSender sender, CommandHelp help) {
+        help.showHelp();
+    }
+
     @Subcommand("create")
     @Description("")
     public void onCreate(CommandSender sender, @Single String name) {

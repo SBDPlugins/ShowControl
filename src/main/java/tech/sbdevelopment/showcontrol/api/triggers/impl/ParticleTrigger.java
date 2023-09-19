@@ -8,6 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 
+import java.util.Arrays;
+import java.util.List;
+
 @TriggerIdentifier(value = "particle", minArgs = 6, argDesc = "<world> <x> <y> <z> <type> <count>")
 public class ParticleTrigger extends Trigger {
     private final Particle type;
@@ -51,5 +54,15 @@ public class ParticleTrigger extends Trigger {
     @Override
     public void trigger() {
         spawnLoc.getWorld().spawnParticle(type, spawnLoc, count);
+    }
+
+    @Override
+    public List<String> getArgumentTabComplete(int index, String arg) {
+        if (index == 0) {
+            return Bukkit.getWorlds().stream().map(World::getName).toList();
+        } else if (index == 4) {
+            return Arrays.stream(Particle.values()).map(Enum::name).toList();
+        }
+        return List.of();
     }
 }

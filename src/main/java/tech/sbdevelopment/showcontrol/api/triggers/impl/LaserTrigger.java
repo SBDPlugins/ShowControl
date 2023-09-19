@@ -8,6 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import java.util.List;
+
 @TriggerIdentifier(value = "laser", minArgs = 5, argDesc = "<name> <world> <x> <y> <z>")
 public class LaserTrigger extends Trigger {
     private final String name;
@@ -44,6 +46,16 @@ public class LaserTrigger extends Trigger {
     @Override
     public void trigger() {
         Lasers.move(name, newLocation);
+    }
+
+    @Override
+    public List<String> getArgumentTabComplete(int index, String arg) {
+        if (index == 0) {
+            return Lasers.getLasers().keySet().stream().toList();
+        } else if (index == 1) {
+            return Bukkit.getWorlds().stream().map(World::getName).toList();
+        }
+        return List.of();
     }
 
     @Override

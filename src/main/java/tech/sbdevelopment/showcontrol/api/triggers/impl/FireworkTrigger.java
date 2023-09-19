@@ -1,11 +1,16 @@
 package tech.sbdevelopment.showcontrol.api.triggers.impl;
 
+import org.bukkit.*;
 import tech.sbdevelopment.showcontrol.api.exceptions.InvalidArgumentException;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
 import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
 import tech.sbdevelopment.showcontrol.elements.Fireworks;
 import tech.sbdevelopment.showcontrol.utils.Color;
-import org.bukkit.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @TriggerIdentifier(value = "firework", minArgs = 5, argDesc = "<world> <x> <y> <z> <configuration ...>", item = Material.FIREWORK_ROCKET)
 public class FireworkTrigger extends Trigger {
@@ -59,6 +64,10 @@ public class FireworkTrigger extends Trigger {
                     continue;
                 }
 
+                //Limit value to 0-127
+                if (power < 0) power = 0;
+                if (power > 127) power = 127;
+
                 firework = firework.setPower(power);
             }
         }
@@ -69,5 +78,36 @@ public class FireworkTrigger extends Trigger {
     @Override
     public void trigger() {
         Fireworks.spawn(fw, spawnLoc);
+    }
+
+    @Override
+    public List<String> getArgumentTabComplete(int index, String arg) {
+        if (index == 0) {
+            return Bukkit.getWorlds().stream().map(World::getName).toList();
+        } else if (index == 4) {
+            if (arg.contains(":")) {
+                String[] split = arg.split(":");
+                if (split.length != 2) return List.of();
+
+                String key = split[0];
+
+                if (key.equalsIgnoreCase("color")) {
+                    return Arrays.stream(Color.values()).map(c -> "color:" + c.name()).toList();
+                } else if (key.equalsIgnoreCase("shape")) {
+                    return Arrays.stream(FireworkEffect.Type.values()).map(t -> "shape:" + t.name()).toList();
+                } else if (key.equalsIgnoreCase("fade")) {
+                    return Arrays.stream(Color.values()).map(c -> "fade:" + c.name()).toList();
+                } else if (key.equalsIgnoreCase("effect")) {
+                    return List.of("effect:trail", "effect:twinkle");
+                } else if (key.equalsIgnoreCase("power")) {
+                    return IntStream.rangeClosed(0, 127)
+                            .mapToObj(i -> "power:" + i)
+                            .collect(Collectors.toList());
+                }
+            } else {
+                return List.of("color:", "shape:", "fade:", "effect:", "power:");
+            }
+        }
+        return List.of();
     }
 }

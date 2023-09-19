@@ -26,6 +26,14 @@ public final class ShowControlPlugin extends JavaPlugin {
         commandManager.registerCommand(new ShowCMD());
         commandManager.getCommandCompletions().registerCompletion("showname", c -> SCAPI.getShowsMap().keySet());
         commandManager.getCommandCompletions().registerCompletion("showtype", c -> SCAPI.getTriggers().keySet());
+        commandManager.getCommandCompletions().registerCompletion("cuearg", c -> {
+           //Get the show type argument value, and return the tab complete for that argument
+              String showType = c.getContextValue(String.class, 2);
+                if (showType == null) {
+                    return null;
+                }
+                return SCAPI.getTrigger().getArgumentTabComplete(c.getContextValue(Integer.class, 3), c.getContextValue(String.class, 4));
+        });
 
         getLogger().info("Loading GUI manageer...");
         Inventory.init(this);

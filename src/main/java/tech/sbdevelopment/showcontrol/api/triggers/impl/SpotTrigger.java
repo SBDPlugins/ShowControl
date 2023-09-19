@@ -3,10 +3,13 @@ package tech.sbdevelopment.showcontrol.api.triggers.impl;
 import tech.sbdevelopment.showcontrol.api.exceptions.InvalidArgumentException;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
 import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
+import tech.sbdevelopment.showcontrol.elements.Lasers;
 import tech.sbdevelopment.showcontrol.elements.Spots;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+
+import java.util.List;
 
 @TriggerIdentifier(value = "spot", minArgs = 5, argDesc = "<name> <world> <x> <y> <z>")
 public class SpotTrigger extends Trigger {
@@ -44,6 +47,16 @@ public class SpotTrigger extends Trigger {
     @Override
     public void trigger() {
         Spots.move(name, newLocation);
+    }
+
+    @Override
+    public List<String> getArgumentTabComplete(int index, String arg) {
+        if (index == 0) {
+            return Spots.getSpots().keySet().stream().toList();
+        } else if (index == 1) {
+            return Bukkit.getWorlds().stream().map(World::getName).toList();
+        }
+        return List.of();
     }
 
     @Override
