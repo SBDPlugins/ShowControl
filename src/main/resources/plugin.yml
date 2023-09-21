@@ -3,5 +3,6 @@ version: ${project.version}
 main: tech.sbdevelopment.showcontrol.ShowControlPlugin
 api-version: 1.13
 authors: [SBDeveloper]
+softdepend: [Animatronics]
 description: Create shows easily using this plugin!
 website: https://sbdevelopment.tech

@@ -1,6 +1,8 @@
 package tech.sbdevelopment.showcontrol.api;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
@@ -14,16 +16,18 @@ import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
 import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
 import tech.sbdevelopment.showcontrol.data.DataStorage;
 import tech.sbdevelopment.showcontrol.utils.YamlFile;
-import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class SCAPI {
+    @Getter
+    private static final Map<String, Trigger> defaultTriggers = new HashMap<>(); //DO NOT USE, just for tab complete!
     @Getter
     private static final Map<String, Class<? extends Trigger>> triggers = new HashMap<>();
     @Getter
@@ -49,7 +53,18 @@ public class SCAPI {
 
             TriggerIdentifier identifier = trigger.getAnnotation(TriggerIdentifier.class);
             triggers.put(identifier.value(), (Class<? extends Trigger>) trigger);
+            try {
+                defaultTriggers.put(identifier.value(), (Trigger) trigger.getDeclaredConstructor().newInstance());
+            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                     IllegalAccessException ex) {
+                throw new RuntimeException("Could not find default constructor for trigger " + trigger.getSimpleName() + "! Tab complete will not work for this trigger.", ex);
+            }
         }
+    }
+
+    public static List<String> getTabComplete(String triggerType, Player player, int index, String arg) {
+        if (!defaultTriggers.containsKey(triggerType)) return new ArrayList<>();
+        return defaultTriggers.get(triggerType).getArgumentTabComplete(player, index, arg);
     }
 
     public static <T extends Trigger> T getTrigger(String data) throws ReflectiveOperationException, InvalidTriggerException, TooFewArgumentsException, IllegalArgumentException {

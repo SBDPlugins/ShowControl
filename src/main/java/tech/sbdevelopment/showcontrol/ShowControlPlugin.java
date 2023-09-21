@@ -1,12 +1,13 @@
 package tech.sbdevelopment.showcontrol;
 
 import co.aikar.commands.PaperCommandManager;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import tech.sbdevelopment.showcontrol.api.SCAPI;
 import tech.sbdevelopment.showcontrol.commands.ShowCMD;
 import tech.sbdevelopment.showcontrol.data.DataStorage;
-import tech.sbdevelopment.showcontrol.api.SCAPI;
 import tech.sbdevelopment.showcontrol.utils.inventories.Inventory;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ShowControlPlugin extends JavaPlugin {
     private static ShowControlPlugin instance;
@@ -27,12 +28,13 @@ public final class ShowControlPlugin extends JavaPlugin {
         commandManager.getCommandCompletions().registerCompletion("showname", c -> SCAPI.getShowsMap().keySet());
         commandManager.getCommandCompletions().registerCompletion("showtype", c -> SCAPI.getTriggers().keySet());
         commandManager.getCommandCompletions().registerCompletion("cuearg", c -> {
-           //Get the show type argument value, and return the tab complete for that argument
-              String showType = c.getContextValue(String.class, 2);
-                if (showType == null) {
-                    return null;
-                }
-                return SCAPI.getTrigger().getArgumentTabComplete(c.getContextValue(Integer.class, 3), c.getContextValue(String.class, 4));
+            String arguments = c.getContextValue(String.class, 3);
+            String[] args = arguments.split(" ", -1);
+            if (args.length < 1) {
+                return null;
+            }
+            int lastArgIndex = args.length - 2;
+            return SCAPI.getTabComplete(args[0], c.getSender() instanceof Player ? c.getPlayer() : null, lastArgIndex, args[lastArgIndex + 1]);
         });
 
         getLogger().info("Loading GUI manageer...");

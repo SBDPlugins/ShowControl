@@ -1,12 +1,15 @@
 package tech.sbdevelopment.showcontrol.api.triggers.impl;
 
-import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
-import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
+import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
+import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
 
 import java.util.List;
 
+@NoArgsConstructor(force = true)
 @TriggerIdentifier(value = "command", minArgs = 1, argDesc = "<command ...>", item = Material.COMMAND_BLOCK)
 public class CommandTrigger extends Trigger {
     public CommandTrigger(String[] data) {
@@ -19,7 +22,7 @@ public class CommandTrigger extends Trigger {
     }
 
     @Override
-    public List<String> getArgumentTabComplete(int index, String arg) {
+    public List<String> getArgumentTabComplete(Player player, int index, String arg) {
         return List.of();
     }
 }

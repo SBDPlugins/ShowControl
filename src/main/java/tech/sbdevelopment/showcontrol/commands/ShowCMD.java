@@ -3,15 +3,15 @@ package tech.sbdevelopment.showcontrol.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
-import tech.sbdevelopment.showcontrol.api.exceptions.InvalidTriggerException;
-import tech.sbdevelopment.showcontrol.api.exceptions.TooFewArgumentsException;
-import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
-import tech.sbdevelopment.showcontrol.api.SCAPI;
-import tech.sbdevelopment.showcontrol.gui.ShowCueGUI;
-import tech.sbdevelopment.showcontrol.utils.TimeUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import tech.sbdevelopment.showcontrol.api.SCAPI;
+import tech.sbdevelopment.showcontrol.api.exceptions.InvalidTriggerException;
+import tech.sbdevelopment.showcontrol.api.exceptions.TooFewArgumentsException;
+import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
+import tech.sbdevelopment.showcontrol.gui.ShowCueGUI;
+import tech.sbdevelopment.showcontrol.utils.TimeUtil;
 
 @CommandAlias("showcontrol|sc")
 @CommandPermission("sc.admin")
@@ -52,7 +52,7 @@ public class ShowCMD extends BaseCommand {
 
     @Subcommand("add")
     @Description("")
-    @CommandCompletion("@showname @empty @showtype @empty")
+    @CommandCompletion("@showname @empty @showtype @cuearg")
     public void onAdd(CommandSender sender, String name, String time, String args) {
         if (!SCAPI.exists(name)) {
             sender.sendMessage(ChatColor.RED + "That show doesn't exists.");

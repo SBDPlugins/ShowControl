@@ -1,12 +1,12 @@
 package tech.sbdevelopment.showcontrol.gui;
 
 import fr.minuskube.inv.ClickableItem;
-import tech.sbdevelopment.showcontrol.api.points.ShowCuePoint;
-import tech.sbdevelopment.showcontrol.api.SCAPI;
-import tech.sbdevelopment.showcontrol.utils.MainUtil;
-import tech.sbdevelopment.showcontrol.utils.inventories.PaginationInventory;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import tech.sbdevelopment.showcontrol.api.SCAPI;
+import tech.sbdevelopment.showcontrol.api.points.ShowCuePoint;
+import tech.sbdevelopment.showcontrol.utils.MainUtil;
+import tech.sbdevelopment.showcontrol.utils.inventories.PaginationInventory;
 
 import java.util.Comparator;
 
