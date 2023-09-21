@@ -1,14 +1,16 @@
 package tech.sbdevelopment.showcontrol.elements;
 
 import fr.skytasul.guardianbeam.Laser;
-import tech.sbdevelopment.showcontrol.ShowControlPlugin;
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
+import tech.sbdevelopment.showcontrol.ShowControlPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Lasers {
+    @Getter
     private static final Map<String, LaserRunnable> lasers = new HashMap<>();
 
     /**

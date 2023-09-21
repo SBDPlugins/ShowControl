@@ -1,12 +1,13 @@
 package tech.sbdevelopment.showcontrol;
 
 import co.aikar.commands.PaperCommandManager;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import tech.sbdevelopment.showcontrol.api.SCAPI;
 import tech.sbdevelopment.showcontrol.commands.ShowCMD;
 import tech.sbdevelopment.showcontrol.data.DataStorage;
-import tech.sbdevelopment.showcontrol.api.SCAPI;
 import tech.sbdevelopment.showcontrol.utils.inventories.Inventory;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ShowControlPlugin extends JavaPlugin {
     private static ShowControlPlugin instance;
@@ -26,6 +27,15 @@ public final class ShowControlPlugin extends JavaPlugin {
         commandManager.registerCommand(new ShowCMD());
         commandManager.getCommandCompletions().registerCompletion("showname", c -> SCAPI.getShowsMap().keySet());
         commandManager.getCommandCompletions().registerCompletion("showtype", c -> SCAPI.getTriggers().keySet());
+        commandManager.getCommandCompletions().registerCompletion("cuearg", c -> {
+            String arguments = c.getContextValue(String.class, 3);
+            String[] args = arguments.split(" ", -1);
+            if (args.length < 1) {
+                return null;
+            }
+            int lastArgIndex = args.length - 2;
+            return SCAPI.getTabComplete(args[0], c.getSender() instanceof Player ? c.getPlayer() : null, lastArgIndex, args[lastArgIndex + 1]);
+        });
 
         getLogger().info("Loading GUI manageer...");
         Inventory.init(this);

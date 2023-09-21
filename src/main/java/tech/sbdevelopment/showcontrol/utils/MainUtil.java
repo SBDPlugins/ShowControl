@@ -1,10 +1,10 @@
 package tech.sbdevelopment.showcontrol.utils;
 
-import tech.sbdevelopment.showcontrol.api.points.ShowCuePoint;
-import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.ChatPaginator;
+import tech.sbdevelopment.showcontrol.api.points.ShowCuePoint;
+import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;

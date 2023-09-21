@@ -1,13 +1,20 @@
 package tech.sbdevelopment.showcontrol.api.triggers.impl;
 
-import tech.sbdevelopment.showcontrol.api.exceptions.InvalidArgumentException;
-import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
-import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
+import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
+import tech.sbdevelopment.showcontrol.api.exceptions.InvalidArgumentException;
+import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
+import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@NoArgsConstructor(force = true)
 @TriggerIdentifier(value = "particle", minArgs = 6, argDesc = "<world> <x> <y> <z> <type> <count>")
 public class ParticleTrigger extends Trigger {
     private final Particle type;
@@ -51,5 +58,21 @@ public class ParticleTrigger extends Trigger {
     @Override
     public void trigger() {
         spawnLoc.getWorld().spawnParticle(type, spawnLoc, count);
+    }
+
+    @Override
+    public List<String> getArgumentTabComplete(Player player, int index, String arg) {
+        if (index == 0) {
+            return player != null ? List.of(player.getWorld().getName()) : Bukkit.getWorlds().stream().map(World::getName).collect(Collectors.toList());
+        } else if (index == 1) {
+            return player != null ? List.of(String.valueOf(player.getLocation().getBlockX())) : List.of();
+        } else if (index == 2) {
+            return player != null ? List.of(String.valueOf(player.getLocation().getBlockY())) : List.of();
+        } else if (index == 3) {
+            return player != null ? List.of(String.valueOf(player.getLocation().getBlockZ())) : List.of();
+        } else if (index == 4) {
+            return Arrays.stream(Particle.values()).map(Enum::name).collect(Collectors.toList());
+        }
+        return List.of();
     }
 }
