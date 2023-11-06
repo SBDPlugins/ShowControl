@@ -53,50 +53,24 @@ public class Lasers {
         LaserRunnable laser = lasers.get(name);
 
         new BukkitRunnable() {
-            boolean fired = false;
-            Location oldLoc = laser.posLoc;
+            private final double speed = 0.1;
 
             @Override
             public void run() {
-                if (oldLoc.getBlockX() != posLoc.getBlockX()) {
-                    if (oldLoc.getX() > posLoc.getX()) { //Increase of X
-                        oldLoc = oldLoc.add(0.01, 0, 0);
-                    } else {
-                        oldLoc = oldLoc.add(-0.01, 0, 0);
-                    }
-                    fired = true;
-                } else {
-                    fired = false;
-                }
+                // Calculate the change in x, y, and z for this tick
+                double deltaX = (posLoc.getX() - laser.posLoc.getX()) * speed;
+                double deltaY = (posLoc.getY() - laser.posLoc.getY()) * speed;
+                double deltaZ = (posLoc.getZ() - laser.posLoc.getZ()) * speed;
 
-                if (oldLoc.getBlockY() != posLoc.getBlockY()) {
-                    if (oldLoc.getY() > posLoc.getY()) { //Increase of Y
-                        oldLoc = oldLoc.add(0, 0.01, 0);
-                    } else {
-                        oldLoc = oldLoc.add(0, -0.01, 0);
-                    }
-                    fired = true;
-                } else {
-                    fired = false;
-                }
+                // Update the laser's position
+                laser.posLoc.add(deltaX, deltaY, deltaZ);
+                laser.changePositionLocation(laser.posLoc);
 
-                if (oldLoc.getBlockZ() != posLoc.getBlockZ()) {
-                    if (oldLoc.getZ() > posLoc.getZ()) { //Increase of Z
-                        oldLoc = oldLoc.add(0, 0, 0.01);
-                    } else {
-                        oldLoc = oldLoc.add(0, 0, -0.01);
-                    }
-                    fired = true;
-                } else {
-                    fired = false;
+                // Check if the laser has reached the target location
+                if (laser.posLoc.distanceSquared(posLoc) < 0.01) {
+                    // Laser has reached the target, stop the task
+                    this.cancel();
                 }
-
-                if (!fired) {
-                    cancel();
-                    return;
-                }
-
-                laser.changePositionLocation(oldLoc);
             }
         }.runTaskTimer(ShowControlPlugin.getInstance(), 0L, 1L);
         return true;
@@ -121,6 +95,7 @@ public class Lasers {
             this.baseLoc = baseLoc;
             this.laser = new Laser.GuardianLaser(baseLoc, baseLoc.add(0, 5, 0), -1, 50);
             this.laser.start(ShowControlPlugin.getInstance());
+            this.posLoc = baseLoc;
         }
 
         @Override
