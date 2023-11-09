@@ -2,6 +2,7 @@ package tech.sbdevelopment.showcontrol.elements;
 
 import fr.skytasul.guardianbeam.Laser;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import tech.sbdevelopment.showcontrol.ShowControlPlugin;
@@ -38,6 +39,7 @@ public class Lasers {
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
+        Bukkit.getLogger().info("Spawning laser " + name + " at " + baseLoc);
         return false;
     }
 
@@ -48,13 +50,11 @@ public class Lasers {
      * @param posLoc The new location
      * @return true if done, false if it doesn't exists
      */
-    public static boolean move(String name, Location posLoc) {
+    public static boolean move(String name, Location posLoc, double speed) {
         if (!lasers.containsKey(name)) return false;
         LaserRunnable laser = lasers.get(name);
 
         new BukkitRunnable() {
-            private final double speed = 0.1;
-
             @Override
             public void run() {
                 // Calculate the change in x, y, and z for this tick
@@ -67,8 +67,9 @@ public class Lasers {
                 laser.changePositionLocation(laser.posLoc);
 
                 // Check if the laser has reached the target location
-                if (laser.posLoc.distanceSquared(posLoc) < 0.01) {
-                    // Laser has reached the target, stop the task
+                double tolerance = 0.05;
+                if (Math.abs(deltaX) < tolerance && Math.abs(deltaY) < tolerance && Math.abs(deltaZ) < tolerance) {
+                    // Laser movement is very small, stop the task
                     this.cancel();
                 }
             }
@@ -86,16 +87,14 @@ public class Lasers {
     private static class LaserRunnable extends BukkitRunnable {
         private final Laser laser;
         private final String name;
-        private final Location baseLoc;
 
         private Location posLoc;
 
         public LaserRunnable(String name, Location baseLoc) throws ReflectiveOperationException {
             this.name = name;
-            this.baseLoc = baseLoc;
-            this.laser = new Laser.GuardianLaser(baseLoc, baseLoc.add(0, 5, 0), -1, 50);
+            this.laser = new Laser.GuardianLaser(baseLoc, baseLoc.add(0, 1, 0), -1, 50);
             this.laser.start(ShowControlPlugin.getInstance());
-            this.posLoc = baseLoc;
+            this.posLoc = baseLoc.add(0, 1, 0);
         }
 
         @Override
@@ -103,7 +102,6 @@ public class Lasers {
             if (posLoc == null) return;
 
             try {
-                laser.moveStart(baseLoc);
                 laser.moveEnd(posLoc);
             } catch (ReflectiveOperationException e) {
                 e.printStackTrace();

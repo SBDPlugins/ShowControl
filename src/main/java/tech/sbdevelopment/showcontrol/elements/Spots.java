@@ -48,55 +48,28 @@ public class Spots {
      * @param posLoc The new location
      * @return true if done, false if it doesn't exists
      */
-    public static boolean move(String name, Location posLoc) {
+    public static boolean move(String name, Location posLoc, double speed) {
         if (!spots.containsKey(name)) return false;
         SpotRunnable laser = spots.get(name);
 
         new BukkitRunnable() {
-            boolean fired = false;
-            Location oldLoc = laser.posLoc;
-
             @Override
             public void run() {
-                if (oldLoc.getBlockX() != posLoc.getBlockX()) {
-                    if (oldLoc.getX() > posLoc.getX()) { //Increase of X
-                        oldLoc = oldLoc.add(0.01, 0, 0);
-                    } else {
-                        oldLoc = oldLoc.add(-0.01, 0, 0);
-                    }
-                    fired = true;
-                } else {
-                    fired = false;
-                }
+                // Calculate the change in x, y, and z for this tick
+                double deltaX = (posLoc.getX() - laser.posLoc.getX()) * speed;
+                double deltaY = (posLoc.getY() - laser.posLoc.getY()) * speed;
+                double deltaZ = (posLoc.getZ() - laser.posLoc.getZ()) * speed;
 
-                if (oldLoc.getBlockY() != posLoc.getBlockY()) {
-                    if (oldLoc.getY() > posLoc.getY()) { //Increase of Y
-                        oldLoc = oldLoc.add(0, 0.01, 0);
-                    } else {
-                        oldLoc = oldLoc.add(0, -0.01, 0);
-                    }
-                    fired = true;
-                } else {
-                    fired = false;
-                }
+                // Update the spot's position
+                laser.posLoc.add(deltaX, deltaY, deltaZ);
+                laser.changePositionLocation(laser.posLoc);
 
-                if (oldLoc.getBlockZ() != posLoc.getBlockZ()) {
-                    if (oldLoc.getZ() > posLoc.getZ()) { //Increase of Z
-                        oldLoc = oldLoc.add(0, 0, 0.01);
-                    } else {
-                        oldLoc = oldLoc.add(0, 0, -0.01);
-                    }
-                    fired = true;
-                } else {
-                    fired = false;
+                // Check if the spot has reached the target location
+                double tolerance = 0.05;
+                if (Math.abs(deltaX) < tolerance && Math.abs(deltaY) < tolerance && Math.abs(deltaZ) < tolerance) {
+                    // Spot movement is very small, stop the task
+                    this.cancel();
                 }
-
-                if (!fired) {
-                    cancel();
-                    return;
-                }
-
-                laser.changePositionLocation(oldLoc);
             }
         }.runTaskTimer(ShowControlPlugin.getInstance(), 0L, 1L);
         return true;
@@ -112,15 +85,14 @@ public class Spots {
     private static class SpotRunnable extends BukkitRunnable {
         private final Laser spot;
         private final String name;
-        private final Location baseLoc;
 
         private Location posLoc;
 
         public SpotRunnable(String name, Location baseLoc) throws ReflectiveOperationException {
             this.name = name;
-            this.baseLoc = baseLoc;
-            this.spot = new Laser.CrystalLaser(baseLoc, baseLoc.add(0, 5, 0), -1, 50);
+            this.spot = new Laser.CrystalLaser(baseLoc.add(0, 1, 0), baseLoc, -1, 50);
             this.spot.start(ShowControlPlugin.getInstance());
+            this.posLoc = baseLoc.add(0, 1, 0);
         }
 
         @Override
@@ -128,7 +100,6 @@ public class Spots {
             if (posLoc == null) return;
 
             try {
-                spot.moveStart(baseLoc);
                 spot.moveEnd(posLoc);
             } catch (ReflectiveOperationException e) {
                 e.printStackTrace();

@@ -15,10 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(force = true)
-@TriggerIdentifier(value = "spot", minArgs = 5, argDesc = "<name> <world> <x> <y> <z>")
+@TriggerIdentifier(value = "spot", minArgs = 5, argDesc = "<name> <world> <x> <y> <z> [speed]")
 public class SpotTrigger extends Trigger {
     private final String name;
     private final Location newLocation;
+    private final double speed;
 
     public SpotTrigger(String[] data) throws InvalidArgumentException {
         super(data);
@@ -43,6 +44,12 @@ public class SpotTrigger extends Trigger {
 
         this.newLocation = new Location(w, x, y, z);
 
+        try {
+            this.speed = data.length >= 6 ? Double.parseDouble(data[5]) : 0.1;
+        } catch (NumberFormatException ex) {
+            throw new InvalidArgumentException("Provided speed in SpotTrigger is invalid!");
+        }
+
         if (!Spots.exists(name)) {
             Spots.start(name, newLocation);
         }
@@ -50,7 +57,7 @@ public class SpotTrigger extends Trigger {
 
     @Override
     public void trigger() {
-        Spots.move(name, newLocation);
+        Spots.move(name, newLocation, speed);
     }
 
     @Override

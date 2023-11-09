@@ -15,10 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(force = true)
-@TriggerIdentifier(value = "laser", minArgs = 5, argDesc = "<name> <world> <x> <y> <z>")
+@TriggerIdentifier(value = "laser", minArgs = 5, argDesc = "<name> <world> <x> <y> <z> [speed]")
 public class LaserTrigger extends Trigger {
     private final String name;
     private final Location newLocation;
+    private final double speed;
 
     public LaserTrigger(String[] data) throws InvalidArgumentException {
         super(data);
@@ -43,6 +44,12 @@ public class LaserTrigger extends Trigger {
 
         this.newLocation = new Location(w, x, y, z);
 
+        try {
+            this.speed = data.length >= 6 ? Double.parseDouble(data[5]) : 0.1;
+        } catch (NumberFormatException ex) {
+            throw new InvalidArgumentException("Provided speed in LaserTrigger is invalid!");
+        }
+
         if (!Lasers.exists(name)) {
             Lasers.start(name, newLocation);
         }
@@ -50,7 +57,7 @@ public class LaserTrigger extends Trigger {
 
     @Override
     public void trigger() {
-        Lasers.move(name, newLocation);
+        Lasers.move(name, newLocation, speed);
     }
 
     @Override
