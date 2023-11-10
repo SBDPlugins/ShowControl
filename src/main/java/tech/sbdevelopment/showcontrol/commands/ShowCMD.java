@@ -85,7 +85,7 @@ public class ShowCMD extends BaseCommand {
             return;
         }
 
-        SCAPI.addPoint(name, timeMilli, data);
+        SCAPI.getShow(name).get().addPoint(timeMilli, data);
         sender.sendMessage(ChatColor.GREEN + "The show " + ChatColor.WHITE + name + ChatColor.GREEN + " now contains an extra point!");
     }
 
@@ -98,7 +98,7 @@ public class ShowCMD extends BaseCommand {
             return;
         }
 
-        SCAPI.startShow(name);
+        SCAPI.getShow(name).get().start();
 
         sender.sendMessage(ChatColor.GREEN + "The show " + ChatColor.WHITE + name + ChatColor.GREEN + " has been started!");
     }
@@ -112,7 +112,7 @@ public class ShowCMD extends BaseCommand {
             return;
         }
 
-        SCAPI.cancelShow(name);
+        SCAPI.getShow(name).get().cancel();
 
         sender.sendMessage(ChatColor.GREEN + "The show " + ChatColor.WHITE + name + ChatColor.GREEN + " has been stopped!");
     }

@@ -19,7 +19,7 @@ The project is on our Maven repository, add the following to your `pom.xml` file
 <dependency>
   <groupId>tech.sbdevelopment</groupId>
   <artifactId>ShowControl</artifactId>
-  <version>1.5</version>
+  <version>1.6</version>
   <scope>provided</scope>
 </dependency>
 ```

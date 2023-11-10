@@ -12,6 +12,7 @@ import tech.sbdevelopment.showcontrol.ShowControlPlugin;
 import tech.sbdevelopment.showcontrol.api.exceptions.InvalidTriggerException;
 import tech.sbdevelopment.showcontrol.api.exceptions.TooFewArgumentsException;
 import tech.sbdevelopment.showcontrol.api.points.ShowCuePoint;
+import tech.sbdevelopment.showcontrol.api.shows.Show;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
 import tech.sbdevelopment.showcontrol.api.triggers.TriggerIdentifier;
 import tech.sbdevelopment.showcontrol.data.DataStorage;
@@ -35,20 +36,18 @@ public class SCAPI {
      */
     @Getter
     private static final Map<String, Trigger> defaultTriggers = new HashMap<>();
+
     /**
      * A map of all triggers, used for creating new triggers.
      */
     @Getter
     private static final Map<String, Class<? extends Trigger>> triggers = new HashMap<>();
+
     /**
-     * A map of all shows with their cue points.
+     * A map of all shows.
      */
     @Getter
-    private static final HashMap<String, List<ShowCuePoint>> showsMap = new HashMap<>();
-    /**
-     * A map of all show timers.
-     */
-    private static final HashMap<String, ScheduledExecutorService> showTimers = new HashMap<>();
+    private static final HashMap<String, Show> showsMap = new HashMap<>();
 
     /**
      * Index all triggers in a package. Call this method in your onEnable method.
@@ -131,7 +130,7 @@ public class SCAPI {
      * @param name The name of the show.
      */
     public static void create(String name) {
-        showsMap.put(name, new ArrayList<>());
+        showsMap.put(name, new Show(name));
         DataStorage.save();
     }
 
@@ -158,70 +157,12 @@ public class SCAPI {
     }
 
     /**
-     * Get the points of a show.
+     * Get a show by name.
      *
      * @param name The name of the show.
-     * @return The points of the show.
+     * @return An optional of the show.
      */
-    public static List<ShowCuePoint> getPoints(String name) {
-        if (!exists(name)) return new ArrayList<>();
-        return showsMap.get(name);
-    }
-
-    /**
-     * Add a point to a show.
-     *
-     * @param name The name of the show.
-     * @param time The time of the point.
-     * @param data The data of the point.
-     */
-    public static void addPoint(String name, Long time, Trigger data) {
-        if (!exists(name)) return;
-        getPoints(name).add(new ShowCuePoint(time, data));
-        DataStorage.save();
-    }
-
-    /**
-     * Remove a point from a show.
-     *
-     * @param name The name of the show.
-     * @param point The point to remove.
-     */
-    public static void removePoint(String name, ShowCuePoint point) {
-        if (!exists(name)) return;
-
-        point.getData().remove();
-        showsMap.get(name).remove(point);
-
-        YamlFile data = DataStorage.getFiles().get(name);
-
-        data.getFile().set(point.getCueID().toString(), null);
-        data.saveFile();
-    }
-
-    /**
-     * Start a show.
-     *
-     * @param name The name of the show.
-     */
-    public static void startShow(String name) {
-        if (!exists(name)) return;
-        ScheduledExecutorService showTimer = Executors.newSingleThreadScheduledExecutor();
-        for (ShowCuePoint point : getPoints(name)) {
-            showTimer.schedule(() -> Bukkit.getScheduler().runTask(ShowControlPlugin.getInstance(), () -> point.getData().trigger()), point.getTime(), TimeUnit.MILLISECONDS);
-        }
-        showTimers.put(name, showTimer);
-    }
-
-    /**
-     * Cancel a show.
-     *
-     * @param name The name of the show.
-     */
-    public static void cancelShow(String name) {
-        if (!exists(name)) return;
-        if (!showTimers.containsKey(name)) return;
-        ScheduledExecutorService showTimer = showTimers.get(name);
-        showTimer.shutdownNow();
+    public static Optional<Show> getShow(String name) {
+        return Optional.of(showsMap.get(name));
     }
 }

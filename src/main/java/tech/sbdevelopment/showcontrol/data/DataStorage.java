@@ -1,10 +1,12 @@
 package tech.sbdevelopment.showcontrol.data;
 
+import lombok.Getter;
 import tech.sbdevelopment.showcontrol.ShowControlPlugin;
 import tech.sbdevelopment.showcontrol.api.SCAPI;
 import tech.sbdevelopment.showcontrol.api.exceptions.InvalidTriggerException;
 import tech.sbdevelopment.showcontrol.api.exceptions.TooFewArgumentsException;
 import tech.sbdevelopment.showcontrol.api.points.ShowCuePoint;
+import tech.sbdevelopment.showcontrol.api.shows.Show;
 import tech.sbdevelopment.showcontrol.api.triggers.Trigger;
 import tech.sbdevelopment.showcontrol.utils.YamlFile;
 
@@ -12,11 +14,8 @@ import java.io.File;
 import java.util.*;
 
 public class DataStorage {
+    @Getter
     private static final Map<String, YamlFile> files = new HashMap<>();
-
-    public static Map<String, YamlFile> getFiles() {
-        return files;
-    }
 
     public static void load() {
         // Create data folder if not exists
@@ -45,14 +44,14 @@ public class DataStorage {
 
                 cues.add(new ShowCuePoint(cueID, time, data));
             }
-            SCAPI.getShowsMap().put(showID, cues);
+            SCAPI.getShowsMap().put(showID, new Show(showID, cues));
         }
     }
 
     public static void save() {
-        for (Map.Entry<String, List<ShowCuePoint>> entry : SCAPI.getShowsMap().entrySet()) {
+        for (Map.Entry<String, Show> entry : SCAPI.getShowsMap().entrySet()) {
             YamlFile file = files.containsKey(entry.getKey()) ? files.get(entry.getKey()) : new YamlFile(ShowControlPlugin.getInstance(), "data/" + entry.getKey());
-            for (ShowCuePoint cue : entry.getValue()) {
+            for (ShowCuePoint cue : entry.getValue().getCuePoints()) {
                 file.getFile().set(cue.getCueID().toString() + ".Time", cue.getTime());
                 file.getFile().set(cue.getCueID().toString() + ".Type", cue.getData().getTriggerId());
                 file.getFile().set(cue.getCueID().toString() + ".Data", cue.getData().getDataString());

@@ -53,7 +53,7 @@ public final class ShowControlPlugin extends JavaPlugin {
     public void onDisable() {
         getLogger().info("Saving data...");
         DataStorage.save();
-        SCAPI.getShowsMap().values().forEach(show -> show.forEach(showCue -> showCue.getData().remove()));
+        SCAPI.getShowsMap().values().forEach(show -> show.getCuePoints().forEach(showCue -> showCue.getData().remove()));
 
         getLogger().info("Plugin disabled!");
         instance = null;
