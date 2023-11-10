@@ -13,7 +13,9 @@
 
     <description>Create shows easily using this plugin!</description>
     <properties>
+        <release>11</release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.lombok.delombok-target>${project.build.directory}/javadoc-delombok</maven.lombok.delombok-target>
     </properties>
 
     <pluginRepositories>
@@ -39,7 +41,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <release>11</release>
+                    <release>${release}</release>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -93,11 +95,30 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+                <version>1.18.20.0</version>
+                <configuration>
+                    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+                    <outputDirectory>${maven.lombok.delombok-target}</outputDirectory>
+                    <addOutputDirectory>false</addOutputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>delombok</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.6.0</version>
                 <configuration>
-                    <release>11</release>
+                    <release>${release}</release>
+                    <sourcepath>${maven.lombok.delombok-target}</sourcepath>
                     <additionalJOption>--no-module-directories</additionalJOption> <!-- Fix for undefined in search -->
                     <sourceFileIncludes>
                         <sourceFileInclude>**/tech/sbdevelopment/showcontrol/api/**</sourceFileInclude>
