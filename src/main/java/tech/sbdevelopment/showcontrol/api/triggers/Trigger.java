@@ -8,10 +8,16 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * This class is the base class for all triggers
+ */
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Getter
 public abstract class Trigger {
+    /**
+     * The datastring of the trigger
+     */
     private final String[] dataString;
 
     /**

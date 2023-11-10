@@ -12,8 +12,19 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class ShowCuePoint {
+    /**
+     * The ID of the cue point
+     */
     private final UUID cueID;
+
+    /**
+     * The start-time (milliseconds)
+     */
     private final Long time;
+
+    /**
+     * The data
+     */
     private final Trigger data;
 
     /**

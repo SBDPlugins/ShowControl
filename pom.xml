@@ -23,6 +23,13 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <distributionManagement>
+        <repository>
+            <id>sbdevelopment-repo</id>
+            <url>https://repo.sbdevelopment.tech/releases</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <defaultGoal>clean package</defaultGoal>
         <finalName>${project.name} v${project.version}</finalName>
@@ -84,6 +91,18 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <release>11</release>
+                    <additionalJOption>--no-module-directories</additionalJOption> <!-- Fix for undefined in search -->
+                    <sourceFileIncludes>
+                        <sourceFileInclude>**/tech/sbdevelopment/showcontrol/api/**</sourceFileInclude>
+                    </sourceFileIncludes>
+                </configuration>
             </plugin>
         </plugins>
         <resources>
