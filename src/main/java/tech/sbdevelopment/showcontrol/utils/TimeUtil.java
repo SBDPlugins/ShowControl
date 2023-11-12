@@ -3,52 +3,45 @@ package tech.sbdevelopment.showcontrol.utils;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-/*
- * Source from:
- * https://github.com/Mindgamesnl/OpenAudioMc/blob/master/plugin/src/main/java/com/craftmend/openaudiomc/spigot/modules/show/util/TimeParser.java
- */
 public class TimeUtil {
-
-    public static Long toMilis(String input) {
+    public static Long toMillis(String input) {
         long time = 0L;
 
-        // ITS A TIMECODE
         if (input.contains(":")) {
             return LocalTime.parse(input, DateTimeFormatter.ofPattern("HH:mm:ss")).toSecondOfDay() * 1000L;
         }
 
         input = input.toLowerCase() + "-";
 
-        String[] milisSplit = input.split("ms");
-        if (isValid(milisSplit)) {
-            time += Long.parseLong(milisSplit[0]);
-            return time;
-        }
+        Pattern pattern = Pattern.compile("(\\d+)([a-z]+)");
+        Matcher matcher = pattern.matcher(input);
 
-        String[] secondsSplit = input.split("s");
-        if (isValid(secondsSplit)) {
-            time += Math.round(Double.parseDouble(secondsSplit[0]) * 1000);
-            return time;
-        }
+        while (matcher.find()) {
+            String value = matcher.group(1);
+            String unit = matcher.group(2);
 
-        String[] minutesSplit = input.split("m");
-        if (isValid(minutesSplit)) {
-            time += Math.round(Double.parseDouble(minutesSplit[0]) * 60000);
-            return time;
-        }
-
-        String[] tickSplit = input.split("t");
-        if (isValid(tickSplit)) {
-            time += Integer.parseInt(tickSplit[0]) * 50L;
-            return time;
+            switch (unit) {
+                case "ms":
+                    time += Long.parseLong(value);
+                    break;
+                case "s":
+                    time += Math.round(Double.parseDouble(value) * 1000);
+                    break;
+                case "m":
+                    time += Math.round(Double.parseDouble(value) * 60000);
+                    break;
+                case "t":
+                    time += Integer.parseInt(value) * 50L;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown time unit: " + unit);
+            }
         }
 
         return time;
-    }
-
-    private static boolean isValid(String[] array) {
-        return array.length > 1 && !array[0].isEmpty();
     }
 
     public static String makeReadable(Long time) {

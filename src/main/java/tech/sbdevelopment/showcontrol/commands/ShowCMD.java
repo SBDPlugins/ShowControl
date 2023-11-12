@@ -61,7 +61,7 @@ public class ShowCMD extends BaseCommand {
 
         Long timeMilli;
         try {
-            timeMilli = TimeUtil.toMilis(time);
+            timeMilli = TimeUtil.toMillis(time);
         } catch (Exception e) {
             sender.sendMessage(ChatColor.RED + "Provide a valid time, for example 5s (5 seconds) or 10m (10 minutes).");
             return;
